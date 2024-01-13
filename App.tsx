@@ -17,7 +17,7 @@ function App(): React.JSX.Element {
       <StatusBar/>
       <View>
         <Text>
-          Hello world
+          Hello world hehe
         </Text>
       </View>
     </SafeAreaView>
