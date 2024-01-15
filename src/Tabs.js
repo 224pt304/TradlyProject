@@ -11,6 +11,7 @@ const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
   return (
+    
     <Tab.Navigator
 
       screenOptions={{
@@ -40,7 +41,7 @@ const Tabs = () => {
           )
         }} />
 
-      <Tab.Screen name='Browser' component={Favorite}
+      <Tab.Screen name='Browser' component={Browser}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused  }) => (

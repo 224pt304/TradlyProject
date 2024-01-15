@@ -1,6 +1,7 @@
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from "react-native"
 import React from "react"
 import { useNavigation } from '@react-navigation/native'
+import TitleBar from './TitleBar';
 
 const Favorite = () => {
     const navigation = useNavigation();
@@ -8,6 +9,7 @@ const Favorite = () => {
     const data = JSON.parse(js);
     return (
         <View>
+            <TitleBar title={'Favorite'}/>
             <FlatList
                 numColumns={2}
                 keyExtractor={item => item.id}

@@ -1,10 +1,10 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import React from 'react'
 import Swiper from 'react-native-swiper';
+import TitleBar from './TitleBar';
 
-const ProductDetail = ({route}) => {
-    const {product} = route.params;
-
+const ProductDetail = ({ route }) => {
+    const { product } = route.params;
     const images = [
         'https://images.fpt.shop/unsafe/filters:quality(5)/fptshop.com.vn/uploads/images/tin-tuc/168111/Originals/hinh%20nen%20may%20tinh%20dep%20(13)(1).jpg',
         'https://i.pinimg.com/originals/60/61/b2/6061b23e28ce01e869244655d735c3c2.jpg',
@@ -23,7 +23,7 @@ const ProductDetail = ({route}) => {
 
     return (
         <View style={{ backgroundColor: 'white', width: '100%', height: ' 100%' }}>
-
+            <TitleBar title={nameProduct} />
             <View style={{ height: 230 }}>
                 {/* task bar */}
                 <View style={{ width: '100%', padding: 20, position: 'absolute', flexDirection: 'row', justifyContent: 'space-between', zIndex: 3, }}>
@@ -67,7 +67,7 @@ const ProductDetail = ({route}) => {
                 </Swiper>
             </View>
             <ScrollView
-            showsVerticalScrollIndicator={false}>
+                showsVerticalScrollIndicator={false}>
                 <View style={{ padding: 16 }}>
                     <Text style={[{ fontSize: 16, color: '#4F4F4F', }, styles.textBold]}>{nameProduct}</Text>
                     <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'baseline' }}>
@@ -75,7 +75,7 @@ const ProductDetail = ({route}) => {
                         {sale &&
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ textDecorationLine: 'line-through', marginLeft: 14, fontSize: 14 }}>${cost} </Text>
-                                <Text style={{ fontSize: 14 }}>{sale }% off</Text>
+                                <Text style={{ fontSize: 14 }}>{sale}% off</Text>
                             </View>}
                     </View>
                 </View>
