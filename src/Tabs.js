@@ -40,7 +40,7 @@ const Tabs = () => {
           )
         }} />
 
-      <Tab.Screen name='Browser' component={ProductDetail}
+      <Tab.Screen name='Browser' component={Favorite}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused  }) => (

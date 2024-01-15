@@ -2,7 +2,8 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'rea
 import React from 'react'
 import Swiper from 'react-native-swiper';
 
-const ProductDetail = (props) => {
+const ProductDetail = ({route}) => {
+    const {product} = route.params;
 
     const images = [
         'https://images.fpt.shop/unsafe/filters:quality(5)/fptshop.com.vn/uploads/images/tin-tuc/168111/Originals/hinh%20nen%20may%20tinh%20dep%20(13)(1).jpg',
@@ -11,9 +12,9 @@ const ProductDetail = (props) => {
         'https://i.pinimg.com/originals/60/61/b2/6061b23e28ce01e869244655d735c3c2.jpg',
     ];
 
-    const nameProduct = 'Cocacola';
-    const cost = 50;
-    const sale = 50 / 100;
+    const nameProduct = product.name;
+    const cost = product.price;
+    const sale = product.sale;
     const describe = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lobortis cras placerat diam ipsum ut. Nisi vel adipiscing massa bibendum diam. Suspendisse mattis dui maecenas duis mattis. Mattis aliquam at arcu, semper nunc, venenatis et pellentesque eu. Id tristique maecenas tristique habitasse eu elementum sed. Aliquam eget lacus, arcu, adipiscing eget feugiat in dolor sagittis Non commodo, a justo massa porttitor sed placerat in. Orci tristique etiam tempus sed. Mi varius morbi egestas dictum tempor nisl. In ";
     const condition = 'Organic';
     const priceType = 'Fixed'
@@ -70,11 +71,11 @@ const ProductDetail = (props) => {
                 <View style={{ padding: 16 }}>
                     <Text style={[{ fontSize: 16, color: '#4F4F4F', }, styles.textBold]}>{nameProduct}</Text>
                     <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'baseline' }}>
-                        <Text style={[{ fontSize: 18, color: '#33907C', }, styles.textBold]}>${sale == 0 ? cost * sale : cost}</Text>
+                        <Text style={[{ fontSize: 18, color: '#33907C', }, styles.textBold]}>${sale != 0 ? (cost - (cost * sale / 100)).toFixed(2) : cost}</Text>
                         {sale &&
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ textDecorationLine: 'line-through', marginLeft: 14, fontSize: 14 }}>${cost} </Text>
-                                <Text style={{ fontSize: 14 }}>{sale * 100}% off</Text>
+                                <Text style={{ fontSize: 14 }}>{sale }% off</Text>
                             </View>}
                     </View>
                 </View>
