@@ -5,7 +5,8 @@ import Home from './Home';
 import Browser from './Browser';
 import ProductDetail from './ProductDetail';
 import Favorite from './Favorite';
-
+import OrderHistory from './OrderHistory';
+import Profile from './Profile';
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
@@ -71,7 +72,7 @@ const Tabs = () => {
           )
         }} />
 
-      <Tab.Screen name='OrderHistory' component={Browser}
+      <Tab.Screen name='OrderHistory' component={OrderHistory}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused  }) => (
@@ -87,7 +88,7 @@ const Tabs = () => {
           )
         }} />
 
-      <Tab.Screen name='Profile' component={Browser}
+      <Tab.Screen name='Profile' component={Profile}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused  }) => (
