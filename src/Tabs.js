@@ -13,8 +13,15 @@ const Tabs = () => {
   return (
     <Tab.Navigator
 
-      tabBarOptions={{
-        showLabel: false,
+      screenOptions={{
+        tabBarShowLabel: false,
+        tabBarHideOnKeyboard: true,
+        tabBarStyle: [
+          {
+            display: 'flex',
+            height: 80
+          },
+        ],
       }}>
 
       <Tab.Screen name='Home' component={Home}
