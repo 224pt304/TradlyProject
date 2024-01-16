@@ -20,6 +20,8 @@ import EditProfile from './src/EditProfile';
 import About from './src/About';
 import FeedBack from './src/Feedback';
 import Tabs from './src/Tabs';
+import Welcome from './src/Welcome';
+import Onboarding from './src/Onboarding';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,7 +29,7 @@ function App(): React.JSX.Element {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Tabs'>
+      <Stack.Navigator initialRouteName='Welcome'>
         <Stack.Screen name='ProductDetail' component={ProductDetail} options={{headerShown: false}}/>
         <Stack.Screen name='Tabs' component={Tabs}   options={{headerShown: false}}/>
         <Stack.Screen name='Cart' component={Cart}   options={{headerShown: false}}/>
@@ -35,6 +37,8 @@ function App(): React.JSX.Element {
         <Stack.Screen name='EditProfile' component={EditProfile}   options={{headerShown: false}}/>
         <Stack.Screen name='About' component={About}   options={{headerShown: false}}/>
         <Stack.Screen name='FeedBack' component={FeedBack}   options={{headerShown: false}}/>
+        <Stack.Screen name='Welcome' component={Welcome}   options={{headerShown: false}}/>
+        <Stack.Screen name='Onboarding' component={Onboarding}   options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
