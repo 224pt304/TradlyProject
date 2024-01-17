@@ -54,7 +54,7 @@ const ProductDetail = ({ route }) => {
                 }}
                     showsButtons={false} autoplay
                     showsPagination={true}
-                    autoplayTimeout={5}
+                    autoplayTimeout={3}
                     dotStyle={styles.paginationDot}
                     activeDotStyle={styles.activePaginationDot}>
                     {images.map((imag, index) => (

@@ -29,7 +29,7 @@ function App(): React.JSX.Element {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Welcome'>
+      <Stack.Navigator initialRouteName='Tabs'>
         <Stack.Screen name='ProductDetail' component={ProductDetail} options={{headerShown: false}}/>
         <Stack.Screen name='Tabs' component={Tabs}   options={{headerShown: false}}/>
         <Stack.Screen name='Cart' component={Cart}   options={{headerShown: false}}/>
