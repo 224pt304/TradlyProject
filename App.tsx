@@ -22,6 +22,9 @@ import FeedBack from './src/Feedback';
 import Tabs from './src/Tabs';
 import Welcome from './src/Welcome';
 import Onboarding from './src/Onboarding';
+import Add_address from './src/Add_address';
+import Order_details from './src/Order_details';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +42,8 @@ function App(): React.JSX.Element {
         <Stack.Screen name='FeedBack' component={FeedBack}   options={{headerShown: false}}/>
         <Stack.Screen name='Welcome' component={Welcome}   options={{headerShown: false}}/>
         <Stack.Screen name='Onboarding' component={Onboarding}   options={{headerShown: false}}/>
+        <Stack.Screen name='Add_address' component={Add_address}   options={{headerShown: false}}/>
+        <Stack.Screen name='Order_details' component={Order_details}   options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
