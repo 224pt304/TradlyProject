@@ -7,9 +7,26 @@ import ProductDetail from './ProductDetail';
 import Favorite from './Favorite';
 import OrderHistory from './OrderHistory';
 import Profile from './Profile';
+
 const Tab = createBottomTabNavigator();
 
+
 const Tabs = () => {
+
+  const renderItem = (nameTab,nameIcon,focused) =>{
+    return(
+      <View style={{alignItems: 'center'}}>
+      <Image
+        style={[styles.icon, {
+          tintColor: focused  ? '#33907C' : '#4F4F4F'
+        }]}
+        source={nameIcon}
+        resizeMode='contain' />
+      <Text style={{color: focused  ? '#33907C' : '#4F4F4F'}}>{nameTab}</Text>
+    </View>
+    );
+  };
+
   return (
     
     <Tab.Navigator
@@ -29,15 +46,7 @@ const Tabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused  }) => (
-            <View style={{alignItems: 'center'}}>
-              <Image
-                style={[styles.icon, {
-                  tintColor: focused  ? '#33907C' : '#4F4F4F'
-                }]}
-                source={require('../assets/images/homeBottom.png')}
-                resizeMode='contain' />
-              <Text style={{color: focused  ? '#33907C' : '#4F4F4F'}}>Home</Text>
-            </View>
+            renderItem('Home',require('../assets/images/homeBottom.png'),focused) 
           )
         }} />
 
@@ -45,15 +54,7 @@ const Tabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused  }) => (
-            <View style={{alignItems: 'center'}}>
-              <Image
-                style={[styles.icon, {
-                  tintColor: focused  ? '#33907C' : '#4F4F4F'
-                }]}
-                source={require('../assets/images/searchBottom.png')}
-                resizeMode='contain' />
-              <Text style={{color: focused  ? '#33907C' : '#4F4F4F'}}>Browser</Text>
-            </View>
+            renderItem('Browser',require('../assets/images/searchBottom.png'),focused)
           )
         }} />
 
@@ -61,15 +62,7 @@ const Tabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused  }) => (
-            <View style={{alignItems: 'center'}}>
-              <Image
-                style={[styles.icon, {
-                  tintColor: focused  ? '#33907C' : '#4F4F4F'
-                }]}
-                source={require('../assets/images/loveBottom.png')}
-                resizeMode='contain' />
-              <Text style={{color: focused  ? '#33907C' : '#4F4F4F'}}>Favorite</Text>
-            </View>
+            renderItem('Favorite',require('../assets/images/loveBottom.png'),focused)
           )
         }} />
 
@@ -77,15 +70,7 @@ const Tabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused  }) => (
-            <View style={{alignItems: 'center'}}>
-              <Image
-                style={[styles.icon, {
-                  tintColor: focused  ? '#33907C' : '#4F4F4F'
-                }]}
-                source={require('../assets/images/historyBottom.png')}
-                resizeMode='contain' />
-              <Text style={{color: focused  ? '#33907C' : '#4F4F4F'}}>History</Text>
-            </View>
+            renderItem('Order',require('../assets/images/historyBottom.png'),focused)
           )
         }} />
 
@@ -93,15 +78,7 @@ const Tabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused  }) => (
-            <View style={{alignItems: 'center'}}>
-              <Image
-                style={[styles.icon, {
-                  tintColor: focused  ? '#33907C' : '#4F4F4F'
-                }]}
-                source={require('../assets/images/profileBottom.png')}
-                resizeMode='contain' />
-              <Text style={{color: focused  ? '#33907C' : '#4F4F4F'}}>Profile</Text>
-            </View>
+           renderItem('Profile',require('../assets/images/profileBottom.png'),focused)
           )
         }} />
     </Tab.Navigator>

@@ -13,10 +13,10 @@ const Home = () => {
   const renderItemCatalog = (({ item }) => {
     return (
       <TouchableOpacity key={item.id}>
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Image style={{ width: 93, height: 93 }} source={{ uri: item.img }} />
-          <Text style={{ position: 'absolute', zIndex: 3, color: 'white' }}>{item.name}</Text>
-          <View  style={{ width: 93, height: 93, position: 'absolute', backgroundColor: 'black', opacity: 0.5, zIndex: 2 }}></View>
+        <View style={styles.containerrenderCata}>
+          <Image style={styles.imgCata} source={{ uri: item.img }} />
+          <Text style={styles.textCata}>{item.name}</Text>
+          <View  style={[styles.imgCata, styles.backgroundCata]}></View>
         </View>
       </TouchableOpacity>
     );
@@ -31,15 +31,15 @@ const Home = () => {
             style={styles.img}
             source={{ uri: item.img }} />
             
-          <View style={{height: 60 , padding: 11 }}>
+          <View style={styles.containerDetail}>
             <Text style={styles.name}>{item.name}</Text>
 
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 10, alignItems: 'baseline' }}>
-              <Text style={[{ fontSize: 18, color: '#33907C', fontWeight: 'bold', }]}>${item.sale != 0 ? (item.price - (item.price * item.sale / 100)).toFixed(2) : item.price} </Text>
+            <View style={styles.containerprice}>
+              <Text style={styles.textPrice}>${item.sale != 0 ? (item.price - (item.price * item.sale / 100)).toFixed(2) : item.price} </Text>
               {item.sale &&
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ textDecorationLine: 'line-through', fontSize: 14 }}>${item.price} </Text>
-                  <Text style={{ fontSize: 14 }}>{item.sale}% off</Text>
+                <View style={styles.flexRow}>
+                  <Text style={[styles.textPricefirts, styles.smallText]}>${item.price} </Text>
+                  <Text style={styles.smallText}>{item.sale}% off</Text>
                 </View>}
             </View>
           </View>
@@ -50,11 +50,11 @@ const Home = () => {
 
 
   return (
-    <View style={{ backgroundColor: '#F6F9FF', paddingBottom: 70}}>
+    <View style={styles.fullScreen}>
       <TitleBar title={'Home'} />
       <ScrollView
         showsVerticalScrollIndicator={false}>
-        <View style={{  height: 165 }}>
+        <View style={styles.viewSwiper}>
           <Swiper
             showsPagination={true}
             autoplay
@@ -110,6 +110,56 @@ const Home = () => {
 }
 
 const styles = StyleSheet.create({
+  smallText:{
+    fontSize: 14
+  },
+  textPricefirts:{
+    textDecorationLine: 'line-through',
+  },
+  flexRow:{
+    flexDirection: 'row'
+  },
+  textPrice:{
+    fontSize: 18, 
+    color: '#33907C', 
+    fontWeight: 'bold',
+  },
+  containerprice:{
+    flexDirection: 'row', 
+    flexWrap: 'wrap', 
+    marginTop: 10,
+     alignItems: 'baseline'
+  },
+  containerDetail: {
+    height: 60 , 
+    padding: 11 
+  },
+  backgroundCata:{
+    position: 'absolute', 
+    backgroundColor: 'black', 
+    opacity: 0.5,
+    zIndex: 2
+  },
+  textCata:{
+     position: 'absolute', 
+     zIndex: 3, 
+     color: 'white' 
+  },
+  imgCata:{
+    width: 93, 
+    height: 93
+  },
+  containerrenderCata:{
+    alignItems: 'center', 
+    justifyContent: 'center'
+  },
+  viewSwiper:{
+    height: 165
+  },
+  fullScreen: {
+    flex: 1,
+    backgroundColor: '#F6F9FF', 
+  },
   container: {
     padding: 20,
   },

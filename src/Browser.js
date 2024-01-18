@@ -16,15 +16,15 @@ const Browser = () => {
                 <Image
                     style={styles.img}
                     source={{ uri: item.img }} />
-                <View style={{ padding: 11 }}>
+                <View style={styles.paddingView}>
                     <Text style={styles.name}>{item.name}</Text>
 
-                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 10, flexDirection: 'row', alignItems: 'baseline' }}>
-                        <Text style={[{ fontSize: 18, color: '#33907C', fontWeight: 'bold', }]}>${item.sale != 0 ? (item.price - (item.price * item.sale / 100)).toFixed(2) : item.price} </Text>
+                    <View style={styles.containerPrice}>
+                        <Text style={styles.textPrice}>${item.sale != 0 ? (item.price - (item.price * item.sale / 100)).toFixed(2) : item.price} </Text>
                         {item.sale &&
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={{ textDecorationLine: 'line-through', fontSize: 14 }}>${item.price} </Text>
-                                <Text style={{ fontSize: 14 }}>{item.sale}% off</Text>
+                            <View style={styles.flexRow}>
+                                <Text style={[styles.textPricefirts,styles.smallText]}>${item.price} </Text>
+                                <Text style={styles.smallText}>{item.sale}% off</Text>
                             </View>}
                     </View>
                 </View>
@@ -34,7 +34,7 @@ const Browser = () => {
 };
 
   return (
-    <View style={{marginBottom: 70}}>
+    <View style={styles.fullscreen}>
       <TitleBar title={'Browser'}/>
       <FlatList
         numColumns={2}
@@ -48,12 +48,40 @@ const Browser = () => {
 }
 
 const styles = StyleSheet.create({
+  smallText:{
+    fontSize: 14
+  },
+  textPricefirts:{
+    textDecorationLine: 'line-through',
+  },
+  flexRow:{
+    flexDirection: 'row'
+  },
+  textPrice:{
+    fontSize: 18, 
+    color: '#33907C', 
+    fontWeight: 'bold',
+  },
+  containerPrice: {
+    flexDirection: 'row', 
+    flexWrap: 'wrap', 
+    marginTop: 10, 
+    flexDirection: 'row', 
+    alignItems: 'baseline'
+  },
+  paddingView:{
+    padding: 11,
+  },
+  fullscreen:{
+    flex: 1,
+  },  
   name: {
     color: "#4A4A4A",
     fontSize: 14
   },
   img: {
-    width: "100%",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     height: 127,
   },
   container: {
