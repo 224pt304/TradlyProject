@@ -21,7 +21,7 @@ const Profile = () => {
 
     const navigation = useNavigation();
     const avata = data.name.substring(0, 1);
-    const Chosse = (value) => {
+    const onSettingnavigate = (value) => {
         switch (value.id) {
             case 1:
                 navigation.navigate('EditProfile', { profile: data });
@@ -38,16 +38,23 @@ const Profile = () => {
             default:
                 break;
         }
+    };
+    const render_Opntion = ({item}) => {
+        return (
+            <TouchableOpacity onPress={() => onSettingnavigate(item)} style={styles.Item}>
+                <Text style={styles.Text_option}>{item.name}</Text>
+            </TouchableOpacity>
+        )
     }
     return (
         <View style={styles.Container}>
             <TitleBar title={"Profile"} />
-            <View style={{ width: '100%', height: '35%', backgroundColor: '#33907C', flexDirection: 'row' }}>
-                <View style={{ flex: 2 }}>
-                    <Image style={{ width: 90, height: 90, resizeMode: 'cover', borderRadius: 360, alignSelf: 'center' }} source={{ uri: "https://i.imgur.com/t6abmk3.jpg" }} />
-                    <Text style={{ position: 'absolute', fontSize: 65, alignSelf: 'center', color: 'white' }}>{avata}</Text>
+            <View style={styles.Box_infomation}>
+                <View style={styles.Box_avata}>
+                    <Image style={styles.Image_avata} source={{ uri: "https://i.imgur.com/t6abmk3.jpg" }} />
+                    <Text style={styles.Text_avata}>{avata}</Text>
                 </View>
-                <View style={{ flex: 4, flexDirection: 'column', padding: 10 }}>
+                <View style={styles.Box_content_infomation}>
                     <View style={{ flex: 2, justifyContent: 'space-evenly' }}>
                         <Text style={styles.Name}>{data.name}</Text>
                         <Text style={styles.Phone}>{data.phone}</Text>
@@ -56,14 +63,10 @@ const Profile = () => {
                     <View style={{ flex: 5 }}></View>
                 </View>
             </View>
-            <View style={{ marginTop: '-40%', width: '100%', height: 'auto', padding: 20 }}>
-                <FlatList style={{ backgroundColor: 'white', borderRadius: 10 }}
+            <View style={styles.Box_options}>
+                <FlatList style={styles.Flatlist_option}
                     data={options}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity onPress={() => Chosse(item)} style={styles.Item}>
-                            <Text style={{ fontSize: 15, fontWeight: '500', color: 'black' }}>{item.name}</Text>
-                        </TouchableOpacity>
-                    )}
+                    renderItem={({ item }) => render_Opntion({ item })}
                     keyExtractor={(item) => item.id}
                 />
             </View>
@@ -74,6 +77,46 @@ const Profile = () => {
 export default Profile
 
 const styles = StyleSheet.create({
+    Text_option: {
+        fontSize: 15,
+        fontWeight: '500',
+        color: 'black'
+    },
+    Flatlist_option: {
+        backgroundColor: 'white',
+        borderRadius: 10
+    },
+    Box_options: {
+        marginTop: '-40%',
+        flex: 7,
+        padding: 20
+    },
+    Box_content_infomation: {
+        flex: 4,
+        flexDirection: 'column',
+        padding: 10
+    },
+    Text_avata: {
+        position: 'absolute',
+        fontSize: 65,
+        alignSelf: 'center',
+        color: 'white'
+    },
+    Image_avata: {
+        width: 90,
+        height: 90,
+        resizeMode: 'cover',
+        borderRadius: 360,
+        alignSelf: 'center'
+    },
+    Box_avata: {
+        flex: 2
+    },
+    Box_infomation: {
+        flex: 4,
+        backgroundColor: '#33907C',
+        flexDirection: 'row'
+    },
     Item: {
         padding: 15,
         borderBottomColor: '#F0F0F0',
@@ -91,10 +134,12 @@ const styles = StyleSheet.create({
     },
     Phone: {
         fontSize: 12,
+        lineHeight: 16,
         color: 'white',
     },
     Email: {
         fontSize: 12,
+        lineHeight: 16,
         color: 'white',
     }
 })

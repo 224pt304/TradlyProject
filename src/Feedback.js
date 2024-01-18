@@ -15,33 +15,36 @@ const FeedBack = () => {
     const Remove = (value) => {
         const updatedData = data.filter(item => item.id !== value.id);
         setData(updatedData);
+    };
+    const Render_Feedback = (item) => {
+        return (
+            <View style={styles.Item}>
+                <View style={styles.Box_item_image}>
+                    <Image style={styles.Image_item} source={{ uri: item.img }} />
+                </View>
+                <View style={styles.Box_item_content}>
+                    <Text style={styles.Text_item_name}>{item.name}</Text>
+                    <View style={styles.Box_item_evaluate}>
+                        <Text style={styles.Text_item_evaluate}>{item.evaluate}</Text>
+                        <Image style={styles.Image_item_evaluate} source={{ uri: "https://i.imgur.com/jP6PybW.png" }} />
+                    </View>
+                    <Text style={styles.Text_item_datetime}>{item.date_time}</Text>
+                </View>
+                <View style={styles.Box_item_Remove}>
+                    <TouchableOpacity style={styles.Button_item_remove} onPress={() => Remove(item)} >
+                        <Text style={styles.Text_item_remove}>Remove</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
     }
     return (
         <View style={styles.Container}>
             <TitleBar title={"Feedback"} />
-            <FlatList style={{ padding: 10 }}
+            <FlatList style={styles.Flat_list}
                 data={data}
                 showsVerticalScrollIndicator={false}
-                renderItem={({ item }) => (
-                    <View style={styles.Item}>
-                        <View style={{ flex: 3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                            <Image style={{ width: 70, height: 70, resizeMode: 'cover' }} source={{ uri: item.img }} />
-                        </View>
-                        <View style={{ flex: 6, flexDirection: 'column', justifyContent: 'space-evenly' }}>
-                            <Text style={{ fontSize: 20, color: '#33907C', fontWeight: 'bold' }}>{item.name}</Text>
-                            <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'baseline'}}>
-                                <Text style={{ fontSize: 20, color: '#FFC107', fontWeight: '500' }}>{item.evaluate}</Text>
-                                <Image style={{width: 16, height: 16, resizeMode: 'cover', marginLeft: 10}} source={{uri : "https://i.imgur.com/jP6PybW.png"}}/>
-                            </View>
-                            <Text style={{ fontSize: 15, color: '#33907C', fontWeight: '500' }}>{item.date_time}</Text>
-                        </View>
-                        <View  style={{ flex: 3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                            <TouchableOpacity onPress={() => Remove(item)} style={{backgroundColor:'#33907C', padding: 2, paddingHorizontal: 10, borderRadius: 50}}>
-                                <Text style={{color: 'white', fontWeight: '500'}}>Remove</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                )}
+                renderItem={({ item }) => (Render_Feedback(item))}
             />
         </View>
     )
@@ -50,6 +53,65 @@ const FeedBack = () => {
 export default FeedBack
 
 const styles = StyleSheet.create({
+    Text_item_remove: {
+        color: 'white',
+        fontWeight: '500'
+    },
+    Button_item_remove: {
+        backgroundColor: '#33907C',
+        padding: 2,
+        paddingHorizontal: 10,
+        borderRadius: 50
+    },
+    Box_item_Remove: {
+        flex: 3,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    Text_item_datetime: {
+        fontSize: 15,
+        color: '#33907C',
+        fontWeight: '500'
+    },
+    Image_item_evaluate: {
+        width: 16,
+        height: 16,
+        resizeMode: 'cover',
+        marginLeft: 10
+    },
+    Text_item_evaluate: {
+        fontSize: 20,
+        color: '#FFC107',
+        fontWeight: '500'
+    },
+    Box_item_evaluate: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'baseline'
+    },
+    Text_item_name: {
+        fontSize: 20,
+        color: '#33907C',
+        fontWeight: 'bold'
+    },
+    Box_item_content: {
+        flex: 6,
+        flexDirection: 'column',
+        justifyContent: 'space-evenly'
+    },
+    Image_item: {
+        width: 70,
+        height: 70,
+        resizeMode: 'cover'
+    },
+    Box_item_image: {
+        flex: 3,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
     Container: {
         width: '100%',
         height: '100%',
@@ -62,5 +124,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: 'white',
         borderRadius: 10,
-    }
+    },
+    Flat_list: {
+        padding: 10
+    },
+
 })
