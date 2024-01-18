@@ -23,7 +23,6 @@ const ProductDetail = ({ route }) => {
 
     return (
         <View style={{ backgroundColor: 'white', width: '100%', height: ' 100%' }}>
-            <TitleBar title={nameProduct} />
             <View style={{ height: 230 }}>
                 {/* task bar */}
                 <View style={{ width: '100%', padding: 20, position: 'absolute', flexDirection: 'row', justifyContent: 'space-between', zIndex: 3, }}>

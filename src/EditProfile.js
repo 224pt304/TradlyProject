@@ -10,7 +10,7 @@ const EditProfile = ({ route }) => {
         Alert.alert("Save done");
         setTimeout(() => {
             navigation.goBack();
-        }, 1500);
+        }, 1000);
     }
     return (
         <View style={styles.Container}>
@@ -21,9 +21,9 @@ const EditProfile = ({ route }) => {
                 <TextInput style={styles.Input_form} value={profile.email} />
                 <TextInput style={styles.Input_form} value={profile.password} secureTextEntry={true} />
             </View>
-            <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-                <TouchableOpacity onPress={() => Save_info()} style={{ backgroundColor: '#33907C', width: '70%', alignItems: 'center', padding: 3, borderRadius: 50 }}>
-                    <Text style={{color: 'white', fontSize: 18}}>Save</Text>
+            <View style={styles.Save_Button_box}>
+                <TouchableOpacity onPress={() => Save_info()} style={styles.Save_button}>
+                    <Text style={styles.Save_Button_text}>Save</Text>
                 </TouchableOpacity>
             </View>
 
@@ -35,8 +35,7 @@ export default EditProfile
 
 const styles = StyleSheet.create({
     Container: {
-        width: '100%',
-        height: '100%',
+        flex: 1,
         backgroundColor: '#F6F9FF',
     },
     Input_form: {
@@ -49,5 +48,20 @@ const styles = StyleSheet.create({
     Form_edit: {
         padding: 15,
         marginTop: 30,
-    }
+    },
+    Save_button: {
+        backgroundColor: '#33907C',
+        width: '70%',
+        alignItems: 'center',
+        padding: 3,
+        borderRadius: 50
+    },
+    Save_Button_box: {
+        justifyContent: 'center',
+        flexDirection: 'row'
+    },
+    Save_Button_text: {
+        color: 'white',
+        fontSize: 18
+    },
 })
