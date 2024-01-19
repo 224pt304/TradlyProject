@@ -8,7 +8,7 @@ const TitleBar = (props) => {
         <View style={styles.container}>
             <View style={styles.Header}>
                 <Text style={styles.Title}>{title}</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
+                <TouchableOpacity onPress={() => navigation.navigate('Cart',{listaddress:''})}>
                 <Image style={{width: 30, height: 30}} source={{uri: "https://i.imgur.com/vaNk6IZ.png"}}/>
                 </TouchableOpacity>
             </View>

@@ -18,7 +18,7 @@ const FeedBack = () => {
     }
     return (
         <View style={styles.Container}>
-            <TitleBar title={"Feedback"} />
+            <TitleBar title={"Feedback"}/>
             <FlatList style={{ padding: 10 }}
                 data={data}
                 showsVerticalScrollIndicator={false}

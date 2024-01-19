@@ -1,10 +1,13 @@
 import { StyleSheet, Text, View, TouchableOpacity, Pressable, StatusBar, Image, FlatList } from 'react-native'
 import React, { useState } from 'react'
+import { useNavigation } from '@react-navigation/native';
 
 
-const Order_details = () => {
+const Order_details = ({ route }) => {
 
-    const [list, setlistorder] = useState(DATA);
+    const navigation = useNavigation();
+    const { listorder, listaddress } = route.params;
+    const [list, setlistorder] = useState(listorder);
     const renderitemOrder = (item) => {
         return (
             <View style={myStyle.backgroundsp}>
@@ -31,10 +34,12 @@ const Order_details = () => {
             <StatusBar backgroundColor={'#33907C'}></StatusBar>
             <View style={myStyle.tarbar}>
                 <Text style={myStyle.textAddress}>Order Details</Text>
-                <Image
-                    style={myStyle.x}
-                    source={require('../assets/images/x.png')}
-                />
+                <Pressable onPress={() => navigation.navigate('Home')}>
+                    <Image
+                        style={myStyle.x}
+                        source={require('../assets/images/x.png')}
+                    />
+                </Pressable>
             </View>
             <View>
                 <Image
@@ -49,29 +54,24 @@ const Order_details = () => {
                 keyExtractor={item => item.id}
                 showsVerticalScrollIndicator={false}
             />
+
             <View style={myStyle.delivery}>
                 <Text style={[myStyle.textdelivery, { fontSize: 20 }]}>Delivery Address</Text>
                 <View style={myStyle.viewAddress}>
-                    <Text style={myStyle.tradly}>Tradly team</Text>
-                    <Text style={[myStyle.text, { marginVertical: 10 }]}>Flat Number 512, Eden Garden, Rewari</Text>
+                    <Text style={myStyle.tradly}>{listaddress.name}</Text>
+                    <Text style={[myStyle.text, { marginVertical: 10 }]}>{listaddress.streetaddress},{listaddress.city},{listaddress.zipcode}</Text>
                     <Text style={myStyle.text}>
                         <Text>Mobile</Text>{' :  '}
-                        <Text>9876543210</Text>
+                        <Text>{listaddress.phone}</Text>
                     </Text>
                 </View>
             </View>
+
             <View>
-                <Pressable style={myStyle.pressable}>
+                <Pressable style={myStyle.pressable} onPress={() => navigation.navigate('Home')}>
                     <Text style={myStyle.textpressable}>Back to Home</Text>
                 </Pressable>
             </View>
-
-
-
-
-
-
-
 
         </View>
     )
@@ -213,40 +213,40 @@ const myStyle = StyleSheet.create({
 })
 var DATA = [
     {
-      "id": 1,
-      "name": "Madelaine",
-      "price": 100,
-      "sale": 40,
-      "quanlity": 5,
-      "img": "Female"
+        "id": 1,
+        "name": "Madelaine",
+        "price": 100,
+        "sale": 40,
+        "quanlity": 5,
+        "img": "Female"
     }, {
-      "id": 2,
-      "name": "Lynde",
-      "price": 20,
-      "sale": "10",
-      "quanlity": 3,
-      "img": "Female"
+        "id": 2,
+        "name": "Lynde",
+        "price": 20,
+        "sale": "10",
+        "quanlity": 3,
+        "img": "Female"
     }, {
-      "id": 3,
-      "name": "Leanor",
-      "price": 10,
-      "sale": "8",
-      "quanlity": 1,
-      "img": "Female"
+        "id": 3,
+        "name": "Leanor",
+        "price": 10,
+        "sale": "8",
+        "quanlity": 1,
+        "img": "Female"
     }, {
-      "id": 4,
-      "name": "Grant",
-      "price": 28,
-      "sale": "11",
-      "quanlity": 2,
-      "img": "Male"
+        "id": 4,
+        "name": "Grant",
+        "price": 28,
+        "sale": "11",
+        "quanlity": 2,
+        "img": "Male"
     }, {
-      "id": 5,
-      "name": "Kellby",
-      "price": 38,
-      "sale": "4",
-      "quanlity": 1,
-      "img": "Male"
+        "id": 5,
+        "name": "Kellby",
+        "price": 38,
+        "sale": "4",
+        "quanlity": 1,
+        "img": "Male"
     }, {
         "id": 6,
         "name": "Kellby",
@@ -254,4 +254,4 @@ var DATA = [
         "sale": "4",
         "quanlity": 1,
         "img": "Male"
-      }]
+    }]

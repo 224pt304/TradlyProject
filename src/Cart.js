@@ -1,13 +1,19 @@
-import { Image, StyleSheet, Text, View, Pressable, FlatList, StatusBar, TouchableOpacity, Alert } from 'react-native'
+import { Image, StyleSheet, Text, View, Pressable, FlatList, StatusBar, TouchableOpacity, Alert, Button } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 
-const Cart = () => {
+const Cart = ({ route }) => {
+  const { listaddress } = route.params;
 
   const navigation = useNavigation();
-  const [list, setlistsp] = useState(DATA);
-  const countprice = DATA.reduce((tong, data) => tong + data.price, 0);
 
+  const [list, setlistsp] = useState(DATA);
+  const countprice = list.reduce((tong, data) => tong + data.price, 0);
+
+
+  const remove = (value) => {
+    setlistsp(list.filter(item => item.id !== value.id));
+  }
 
   function updateQuantity(productId, action) {
     // Tìm sản phẩm trong mảng DATA dựa trên productId
@@ -68,7 +74,7 @@ const Cart = () => {
           </View>
         </View>
         <View style={{ borderWidth: 0.2, borderColor: '#4F4F4F', marginTop: 15 }}></View>
-        <Pressable style={myStyle.btnremove}>
+        <Pressable style={myStyle.btnremove} onPress={() => remove(item)}>
           <Text style={myStyle.textremove}>Remove</Text>
         </Pressable>
       </View>
@@ -81,19 +87,44 @@ const Cart = () => {
     <View style={myStyle.container}>
       <StatusBar backgroundColor={'#33907C'}></StatusBar>
       <View style={myStyle.tarbar}>
-        <Image
-          style={myStyle.back}
-          source={require('../assets/images/back.png')}
-        />
+        <Pressable
+          onPress={() => navigation.goBack()} >
+          <Image
+            style={myStyle.back}
+            source={require('../assets/images/back.png')}
+          />
+        </Pressable>
+
         <Text style={myStyle.textCart}>My Cart</Text>
         <Image style={myStyle.back} />
       </View>
-      <View style={myStyle.btnadd}>
-        <Text style={myStyle.textadd}
-          onPress={
-            () => navigation.navigate("Add_address")
-          }>+ Add New Address</Text>
-      </View>
+
+      {
+        listaddress == '' ?
+          <Pressable style={myStyle.btnadd}
+            onPress={
+              () => navigation.navigate("Add_address")
+            }>
+            <Text style={myStyle.textadd}>+ Add New Address</Text>
+          </Pressable>
+          :
+          <View style={myStyle.listaddress}>
+            <View style={myStyle.viewaddress}>
+                <Text>{listaddress.name},{listaddress.phone},{listaddress.streetaddress},{listaddress.city},{listaddress.zipcode}</Text>
+            </View>
+            <View style={myStyle.viewchange}>
+              <Pressable style={myStyle.change} 
+              onPress={()=> navigation.navigate('Add_address')}>
+                <Text style={myStyle.txtchange}>Change</Text>
+              </Pressable>
+            </View>
+          </View>
+      }
+
+
+
+
+
       <FlatList
         style={{ marginBottom: 10 }}
         data={list}
@@ -104,7 +135,7 @@ const Cart = () => {
       <View style={myStyle.detalts}>
         <Text style={[myStyle.textdetalt, { fontSize: 18 }]}>Price Detailt</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 10 }}>
-          <Text style={[myStyle.textdetalt, { fontSize: 15 }]}>Price({DATA.length} item)</Text>
+          <Text style={[myStyle.textdetalt, { fontSize: 15 }]}>Price({list.length} item)</Text>
           <Text style={[myStyle.textdetalt, { fontSize: 15 }]}>{countprice}$</Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -116,12 +147,13 @@ const Cart = () => {
           <Text style={[myStyle.textdetalt, { fontSize: 18 }]}>Delivery Fee</Text>
           <Text style={[myStyle.textdetalt, { fontSize: 18 }]}>{countprice}$</Text>
         </View>
-        <TouchableOpacity style={myStyle.touchableOpacity}>
-          <Text style={myStyle.textPayment}
+        <TouchableOpacity style={myStyle.touchableOpacity}
+
           onPress={
-            () => navigation.navigate("Order_details")
+            () => listaddress == "" ? Alert.alert('Vui lòng nhập địa chỉ') : navigation.navigate('Order_details', { listorder: list,listaddress:listaddress})
           }
-          >Coninue to Payment</Text>
+        >
+          <Text style={myStyle.textPayment}>Coninue to Payment</Text>
         </TouchableOpacity>
       </View>
 
@@ -132,6 +164,41 @@ const Cart = () => {
 export default Cart
 
 const myStyle = StyleSheet.create({
+  addresstext:{
+    color:'#4F4F4F',
+    fontSize:15,
+    fontWeight:'500'
+    
+  },
+  txtchange: {
+    color: 'white',
+    fontWeight: 'bold'
+  },
+  change: {
+    backgroundColor: '#33907C',
+    padding: 10,
+    borderRadius: 20,
+    width: 100,
+    alignItems: 'center',
+  },
+  viewchange: {
+    flex: 1,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  viewaddress: {
+    flex: 2,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    paddingLeft: 10
+  },
+  listaddress: {
+    flexDirection: 'row',
+    backgroundColor:'white',
+    paddingVertical:20
+    
+  },
   textPayment: {
     color: 'white',
     fontSize: 18,

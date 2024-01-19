@@ -51,7 +51,7 @@ const Home = () => {
 
   return (
     <View style={{ backgroundColor: '#F6F9FF', paddingBottom: 70}}>
-      <TitleBar title={'Home'} />
+      <TitleBar title={'Home'}/>
       <ScrollView
         showsVerticalScrollIndicator={false}>
         <View style={{  height: 165 }}>
