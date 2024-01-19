@@ -1,7 +1,35 @@
-import { StyleSheet, Text, View, TouchableOpacity, StatusBar, Image, TextInput } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, KeyboardAvoidingView, StatusBar, Image, TextInput, Pressable, Platform } from 'react-native'
 import React, { useState } from 'react'
+import { useNavigation } from '@react-navigation/native';
+
 
 const Add_address = () => {
+
+    const navigation = useNavigation();
+
+    const [name, setname] = useState('');
+    const [phone, setPhone] = useState('');
+    const [streetaddress, setstreetaddress] = useState('');
+    const [city, setcity] = useState('');
+    const [state, setstate] = useState('');
+    const [zipcode, setZipCode] = useState('');
+
+
+    const save = () => {
+        const listaddress = 
+            {
+                name: name,
+                phone: phone,
+                streetaddress: streetaddress,
+                city: city,
+                state: state,
+                zipcode: zipcode,
+            }
+        
+        navigation.navigate('Cart', { listaddress: listaddress })
+    }
+
+
 
 
 
@@ -9,10 +37,13 @@ const Add_address = () => {
         <View style={myStyle.container}>
             <StatusBar backgroundColor={'#33907C'}></StatusBar>
             <View style={myStyle.tarbar}>
-                <Image
-                    style={myStyle.back}
-                    source={require('../assets/images/back.png')}
-                />
+                <Pressable
+                    onPress={() => navigation.goBack()} >
+                    <Image
+                        style={myStyle.back}
+                        source={require('../assets/images/back.png')}
+                    />
+                </Pressable>
                 <Text style={myStyle.textAddress}>Add a new address</Text>
                 <Image style={myStyle.back} />
             </View>
@@ -20,41 +51,61 @@ const Add_address = () => {
                 <Image style={myStyle.location} source={require('../assets/images/location.png')} />
                 <Text style={myStyle.textlocation}>Use current location</Text>
             </View>
-            <View style={myStyle.viewInput}>
+            <KeyboardAvoidingView
+            behavior={Platform.OS === 'android' ? 'height':'padding'}
+            >
+                <ScrollView>
+                <View style={myStyle.viewInput}>
                 <Text myStyle={myStyle.textname}>Name</Text>
                 <TextInput
                     style={myStyle.textinput}
+                    value={name}
+                    keyboardType='default'
+                    onChangeText={(name) => setname(name)}
                 />
                 <Text myStyle={myStyle.textname}>Phone</Text>
                 <TextInput
                     style={myStyle.textinput}
+                    value={phone}
+                    keyboardType='number-pad'
+                    onChangeText={(phone) => setPhone(phone)}
                 />
                 <Text myStyle={myStyle.textname}>Street address</Text>
                 <TextInput
                     style={myStyle.textinput}
+                    value={streetaddress}
+                    keyboardType='default'
+                    onChangeText={(streetaddress) => setstreetaddress(streetaddress)}
                 />
                 <Text myStyle={myStyle.textname}>City</Text>
                 <TextInput
                     style={myStyle.textinput}
+                    value={city}
+                    keyboardType='default'
+                    onChangeText={(city) => setcity(city)}
                 />
                 <Text myStyle={myStyle.textname}>State</Text>
                 <TextInput
                     style={myStyle.textinput}
+                    value={state}
+                    keyboardType='default'
+                    onChangeText={(state) => setstate(state)}
                 />
                 <Text myStyle={myStyle.textname}>Zipcode</Text>
                 <TextInput
                     style={myStyle.textinput}
+                    value={zipcode}
+                    keyboardType='number-pad'
+                    onChangeText={(zipcode) => setZipCode(zipcode)}
                 />
                 <View style={myStyle.viewSave}>
-                    <TouchableOpacity style={myStyle.touchableOpacity}>
+                    <TouchableOpacity style={myStyle.touchableOpacity} onPress={() => save()}>
                         <Text style={myStyle.textSave}>Save</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-
-
-
-
+                </ScrollView>
+            </KeyboardAvoidingView>
 
         </View>
     )
@@ -118,7 +169,7 @@ const myStyle = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         elevation: 10,
-        marginBottom: 30
+        marginBottom: 10
     },
     textlocation: {
         color: '#4EA0FF',
