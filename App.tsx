@@ -1,54 +1,17 @@
 import React from 'react';
-import type { PropsWithChildren } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-
-import ProductDetail from './src/ProductDetail';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
-import Cart from './src/Cart';
-import Create_Feedback from './src/Create_Feedback';
-import EditProfile from './src/EditProfile';
-import About from './src/About';
-import FeedBack from './src/Feedback';
-import Tabs from './src/Tabs';
-import Welcome from './src/Welcome';
-import Onboarding from './src/Onboarding';
-import Add_address from './src/Add_address';
-import Order_details from './src/Order_details';
-
+import { AppContextProvider } from './src/AppContext';
+import MainNavigation from './src/app/MainNavigation';
 
 const Stack = createNativeStackNavigator();
-
 function App(): React.JSX.Element {
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='Tabs'>
-        <Stack.Screen name='ProductDetail' component={ProductDetail} options={{headerShown: false}}/>
-        <Stack.Screen name='Tabs' component={Tabs}   options={{headerShown: false}}/>
-        <Stack.Screen name='Cart' component={Cart}   options={{headerShown: false}}/>
-        <Stack.Screen name='Create_Feedback' component={Create_Feedback}   options={{headerShown: false}}/>
-        <Stack.Screen name='EditProfile' component={EditProfile}   options={{headerShown: false}}/>
-        <Stack.Screen name='About' component={About}   options={{headerShown: false}}/>
-        <Stack.Screen name='FeedBack' component={FeedBack}   options={{headerShown: false}}/>
-        <Stack.Screen name='Welcome' component={Welcome}   options={{headerShown: false}}/>
-        <Stack.Screen name='Onboarding' component={Onboarding}   options={{headerShown: false}}/>
-        <Stack.Screen name='Add_address' component={Add_address}   options={{headerShown: false}}/>
-        <Stack.Screen name='Order_details' component={Order_details}   options={{headerShown: false}}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AppContextProvider>
+      <MainNavigation/>
+    </AppContextProvider>
+    
   );
 }
-
-
 
 export default App;
