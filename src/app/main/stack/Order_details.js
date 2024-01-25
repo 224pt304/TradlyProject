@@ -12,7 +12,7 @@ const Order_details = ({ route }) => {
         return (
             <View style={myStyle.backgroundsp}>
                 <View style={myStyle.sp}>
-                    <View><Image style={myStyle.imgsp} source={require('../assets/images/img_cocacola.png')} /></View>
+                    <View><Image style={myStyle.imgsp} source={require('../../../../assets/images/img_cocacola.png')} /></View>
                     <View style={myStyle.viewsp}>
                         <Text style={myStyle.namesp}>{item.name}</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 20 }}>
@@ -37,14 +37,14 @@ const Order_details = ({ route }) => {
                 <Pressable onPress={() => navigation.navigate('Home')}>
                     <Image
                         style={myStyle.x}
-                        source={require('../assets/images/x.png')}
+                        source={require('../../../../assets/images/x.png')}
                     />
                 </Pressable>
             </View>
             <View>
                 <Image
                     style={myStyle.successOrder}
-                    source={require('../assets/images/successOrder.png')} />
+                    source={require('../../../../assets/images/successOrder.png')} />
                 <Text style={myStyle.textOrder}>Thanks for Order</Text>
             </View>
             <FlatList

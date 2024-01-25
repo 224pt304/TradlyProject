@@ -7,7 +7,7 @@ const Create = () => {
             <View style={myStyle.dau}>
                 <Image
                     resizeMode='contain'
-                    source={require('../assets/images/Back.png')}
+                    source={require('../../../assets/images/Back23.png')}
                     style={myStyle.hinh}
                 />
                 <Text style={myStyle.txtWelcome} >Welcom to Lungo!!</Text>
@@ -18,7 +18,7 @@ const Create = () => {
                     <TextInput style={myStyle.TextInput2} placeholder='Password' placeholderTextColor='#e0e0eb'>
                     </TextInput>
                     <Image
-                        source={require('../assets/images/eye.png')}
+                        source={require('../../../assets/images/eye.png')}
                         style={myStyle.eyeContainer}
                     />
                 </View>
@@ -26,7 +26,7 @@ const Create = () => {
                     <TextInput style={myStyle.TextInput2} placeholder='Re-enter Password' placeholderTextColor='#e0e0eb'>
                     </TextInput>
                     <Image
-                        source={require('../assets/images/eye.png')}
+                        source={require('../../../assets/images/eye.png')}
                         style={myStyle.eyeContainer}
                     />
                 </View>

@@ -1,7 +1,7 @@
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import TitleBar from './TitleBar'
+import TitleBar from '../stack/TitleBar'
 
 const OrderHistory = () => {
     const navigation = useNavigation();

@@ -41,14 +41,14 @@ const Add_address = () => {
                     onPress={() => navigation.goBack()} >
                     <Image
                         style={myStyle.back}
-                        source={require('../assets/images/back.png')}
+                        source={require('../../../../assets/images/back.png')}
                     />
                 </Pressable>
                 <Text style={myStyle.textAddress}>Add a new address</Text>
                 <Image style={myStyle.back} />
             </View>
             <View style={myStyle.btnlocation}>
-                <Image style={myStyle.location} source={require('../assets/images/location.png')} />
+                <Image style={myStyle.location} source={require('../../../../assets/images/location.png')} />
                 <Text style={myStyle.textlocation}>Use current location</Text>
             </View>
             <KeyboardAvoidingView

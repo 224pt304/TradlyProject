@@ -14,7 +14,7 @@ const Welcome = () => {
         <StatusBar backgroundColor={'#33907C'}></StatusBar>
         <View>
             <Image style={styles.T}
-            source={require('../assets/images/Copy.png')}/>
+            source={require('../../../assets/images/Copy.png')}/>
             <Text style={styles.Title1}>Welcome</Text>
         </View>
     </View>

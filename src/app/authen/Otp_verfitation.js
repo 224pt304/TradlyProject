@@ -22,7 +22,7 @@ const Otp_verfitation = ({ onSubmit }) => {
         <View style={myStyle.dau}>
             <Image
                 resizeMode='contain'
-                source={require('../assets/images/Back.png')}
+                source={require('../../../assets/images/Back23.png')}
                 style={myStyle.hinh}
             />
             <Text style={myStyle.txtWelcome} >Phone Verification</Text>

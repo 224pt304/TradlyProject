@@ -3,7 +3,6 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from './Home';
 import Browser from './Browser';
-import ProductDetail from './ProductDetail';
 import Favorite from './Favorite';
 import OrderHistory from './OrderHistory';
 import Profile from './Profile';
@@ -46,7 +45,7 @@ const Tabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused  }) => (
-            renderItem('Home',require('../assets/images/homeBottom.png'),focused) 
+            renderItem('Home',require('../../../../assets/images/homeBottom.png'),focused) 
           )
         }} />
 
@@ -54,7 +53,7 @@ const Tabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused  }) => (
-            renderItem('Browser',require('../assets/images/searchBottom.png'),focused)
+            renderItem('Browser',require('../../../../assets/images/searchBottom.png'),focused)
           )
         }} />
 
@@ -62,7 +61,7 @@ const Tabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused  }) => (
-            renderItem('Favorite',require('../assets/images/loveBottom.png'),focused)
+            renderItem('Favorite',require('../../../../assets/images/loveBottom.png'),focused)
           )
         }} />
 
@@ -70,7 +69,7 @@ const Tabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused  }) => (
-            renderItem('Order',require('../assets/images/historyBottom.png'),focused)
+            renderItem('Order',require('../../../../assets/images/historyBottom.png'),focused)
           )
         }} />
 
@@ -78,7 +77,7 @@ const Tabs = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused  }) => (
-           renderItem('Profile',require('../assets/images/profileBottom.png'),focused)
+           renderItem('Profile',require('../../../../assets/images/profileBottom.png'),focused)
           )
         }} />
     </Tab.Navigator>

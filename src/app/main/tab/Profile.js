@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import TitleBar from './TitleBar'
+import TitleBar from '../stack/TitleBar'
 
 const Profile = () => {
     const [data, setData] = useState({

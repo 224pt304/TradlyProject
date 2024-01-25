@@ -5,7 +5,7 @@ import Swiper from 'react-native-swiper';
 
 const Onboarding = () => {
     const images = [
-        "../",
+        "../../../",
         'https://i.imgur.com/woAaEn6.png',
         'https://i.imgur.com/RdPZHIE.png'
     ];
@@ -25,13 +25,13 @@ const Onboarding = () => {
 
                 {images.map((imag, index) => (
                     <View key={index} style={styles.slide}>
-                        <Image style={styles.image} source={require('../assets/images/Onboarding1.png')} />
+                        <Image style={styles.image} source={require('../../../assets/images/Onboarding1.png')} />
                     </View>
                 ))}
 
             </Swiper>
             <View style={styles.button1}>
-                <TouchableOpacity style={styles.button} onPress={() => index < 2 ? setIndex(index + 1) : navigation.navigate('Tabs')}>
+                <TouchableOpacity style={styles.button} onPress={() => index < 2 ? setIndex(index + 1) : navigation.navigate('Login')}>
                     <Text style={styles.buttonText}>{index == 2 ? 'Finsh' : 'Next'}</Text>
                 </TouchableOpacity>
             </View>

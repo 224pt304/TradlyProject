@@ -46,7 +46,7 @@ const Cart = ({ route }) => {
     return (
       <View style={myStyle.backgroundsp}>
         <View style={myStyle.sp}>
-          <View><Image style={myStyle.imgsp} source={require('../assets/images/img_cocacola.png')} /></View>
+          <View><Image style={myStyle.imgsp} source={require('../../../../assets/images/img_cocacola.png')} /></View>
           <View style={myStyle.viewsp}>
             <Text style={myStyle.namesp}>{item.name}</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 20 }}>
@@ -60,7 +60,7 @@ const Cart = ({ route }) => {
               }}>
                 <Image
                   style={myStyle.leftquanlity}
-                  source={require('../assets/images/left-arrow.png')} />
+                  source={require('../../../../assets/images/left-arrow.png')} />
               </Pressable>
               <Text style={myStyle.numquanlity}>{item.quanlity}</Text>
               <Pressable onPress={() => {
@@ -68,7 +68,7 @@ const Cart = ({ route }) => {
               }}>
                 <Image
                   style={myStyle.leftquanlity}
-                  source={require('../assets/images/right-arrow.png')} />
+                  source={require('../../../../assets/images/right-arrow.png')} />
               </Pressable>
             </View>
           </View>
@@ -91,7 +91,7 @@ const Cart = ({ route }) => {
           onPress={() => navigation.goBack()} >
           <Image
             style={myStyle.back}
-            source={require('../assets/images/back.png')}
+            source={require('../../../../assets/images/back.png')}
           />
         </Pressable>
 

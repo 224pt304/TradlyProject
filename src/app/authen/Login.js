@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Pressable } from 'react-native'
 import React from 'react'
 
-const login = () => {
+const Login = () => {
   return (
     <View style={myStyle.container}>
       <Text style={myStyle.TXTWTT}>Welcome to tradly</Text>
@@ -24,7 +24,7 @@ const login = () => {
   )
 }
 
-export default login
+export default Login
 
 const myStyle = StyleSheet.create({
   Reset: {

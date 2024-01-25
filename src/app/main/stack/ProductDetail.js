@@ -43,19 +43,19 @@ const ProductDetail = ({ route }) => {
                     onPress={()=> navigation.goBack()}>
                         <Image
                             style={[styles.iconTopBar,styles.left]}
-                            source={require('../assets/images/back.png')} />
+                            source={require('../../../../assets/images/back.png')} />
                         <Image
                             style={[styles.iconElcipTopBar,styles.left]}
-                            source={require('../assets/images/Ellipse.png')} />
+                            source={require('../../../../assets/images/Ellipse.png')} />
                     </TouchableOpacity>
 
                     <TouchableOpacity>
                         <Image
                             style={[styles.iconTopBar,styles.right] }
-                            source={require('../assets/images/love.png')} />
+                            source={require('../../../../assets/images/love.png')} />
                         <Image
                             style={[styles.iconElcipTopBar,styles.right]}
-                            source={require('../assets/images/Ellipse.png')} />
+                            source={require('../../../../assets/images/Ellipse.png')} />
                     </TouchableOpacity>
                 </View>
 
