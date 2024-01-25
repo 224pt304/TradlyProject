@@ -1,10 +1,11 @@
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 const TitleBar = (props) => {
     const navigation = useNavigation();
     const { title } = props;
     return (
+
         <View style={[styles.container,{marginBottom: (title === 'Home' || title === 'Browser') ? 100 : 0}]}>
             <View style={styles.Header}>
                 <Text style={styles.Title}>{title}</Text>
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
     },
     Header: {
         width: '100%',
-        height: '100%',
+        height: 80,
         backgroundColor: '#33907C',
         flexDirection: 'row',
         justifyContent: 'space-between',

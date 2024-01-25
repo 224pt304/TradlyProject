@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView, KeyboardAvoidingView } from 'react-native'
 import React, { useState } from 'react'
 import TitleBar from './TitleBar';
 import Swiper from 'react-native-swiper';
@@ -50,7 +50,7 @@ const Home = () => {
 
 
   return (
-    <View style={styles.fullScreen}>
+    <KeyboardAvoidingView behavior='position' style={styles.fullScreen}>
       <TitleBar title={'Home'} />
       <ScrollView
         showsVerticalScrollIndicator={false}>
@@ -105,7 +105,7 @@ const Home = () => {
           />
         </View> 
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 
