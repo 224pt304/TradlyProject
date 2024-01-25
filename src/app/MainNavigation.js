@@ -20,7 +20,7 @@ import Welcome from './authen/Welcome';
 import Onboarding from './authen/Onboarding';
 import Add_address from './main/stack/Add_address';
 import Order_details from './main/stack/Order_details';
-import Login from './authen/login';
+import Login from './authen/Login';
 import Tabs from './main/tab/Tabs';
 
 const TabsNavigate = () => {
@@ -56,10 +56,10 @@ return(
 
 
 const MainNavigation = () => {
-  const {islogin, setislogin} = useContext(AppContext);
+  const {isLogin, setislogin} = useContext(AppContext);
   return (
     <NavigationContainer>
-      {islogin ? <TabsNavigate/> : <StackNavigate/>}
+      {isLogin ? <TabsNavigate/> : <StackNavigate/>}
   </NavigationContainer>
   )
 }
