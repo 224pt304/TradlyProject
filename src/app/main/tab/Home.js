@@ -1,14 +1,39 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import TitleBar from '../stack/TitleBar';
 import Swiper from 'react-native-swiper';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import AxiosInstance from '../../../helper/AxiosInstance';
 const Home = () => {
   const [image, setimage] = useState(JSON.parse(imagejs));
   const [catalog, setcatalog] = useState(JSON.parse(catalogjs));
-  const [product, setproduct] = useState(JSON.parse(productjs));
+  const [product, setproduct] = useState([]);
 
   const navigation = useNavigation();
+
+  const getProducts = async () =>{
+    console.log('on get Products');
+    try {
+      const result = await AxiosInstance()
+        .get(`/products`, null); 
+      if (result !== null) {
+       setproduct(result);
+       console.log(result);
+      }
+      else {
+        console.log("lỗi kết nối")
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useFocusEffect(
+    useCallback(()=>{
+      getProducts();
+    },[])
+  )
+
 
   const renderItemCatalog = (({ item }) => {
     return (
@@ -29,10 +54,10 @@ const Home = () => {
           onPress={() => navigation.navigate('ProductDetail', { product: item })}>
           <Image
             style={styles.img}
-            source={{ uri: item.img }} />
+            source={{ uri: item.image }} />
             
           <View style={styles.containerDetail}>
-            <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.name}>{item.nameProduct}</Text>
 
             <View style={styles.containerprice}>
               <Text style={styles.textPrice}>${item.sale != 0 ? (item.price - (item.price * item.sale / 100)).toFixed(2) : item.price} </Text>

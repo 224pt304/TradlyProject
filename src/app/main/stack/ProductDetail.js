@@ -7,21 +7,18 @@ import { useNavigation } from '@react-navigation/native';
 const ProductDetail = ({ route }) => {
     const navigation = useNavigation();
     const { product } = route.params;
-    const images = [
-        'https://images.fpt.shop/unsafe/filters:quality(5)/fptshop.com.vn/uploads/images/tin-tuc/168111/Originals/hinh%20nen%20may%20tinh%20dep%20(13)(1).jpg',
-        'https://i.pinimg.com/originals/60/61/b2/6061b23e28ce01e869244655d735c3c2.jpg',
-        'https://images.fpt.shop/unsafe/filters:quality(5)/fptshop.com.vn/uploads/images/tin-tuc/168111/Originals/hinh%20nen%20may%20tinh%20dep%20(13)(1).jpg',
-        'https://i.pinimg.com/originals/60/61/b2/6061b23e28ce01e869244655d735c3c2.jpg',
-    ];
+    const images = [];
 
-    const nameProduct = product.name;
+    images.add(product.image);
+
+    const nameProduct = product.nameProduct;
     const cost = product.price;
     const sale = product.sale;
-    const describe = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lobortis cras placerat diam ipsum ut. Nisi vel adipiscing massa bibendum diam. Suspendisse mattis dui maecenas duis mattis. Mattis aliquam at arcu, semper nunc, venenatis et pellentesque eu. Id tristique maecenas tristique habitasse eu elementum sed. Aliquam eget lacus, arcu, adipiscing eget feugiat in dolor sagittis Non commodo, a justo massa porttitor sed placerat in. Orci tristique etiam tempus sed. Mi varius morbi egestas dictum tempor nisl. In ";
-    const condition = 'Organic';
-    const priceType = 'Fixed'
-    const category = 'Beverages';
-    const location = 'Kualalumpur, Malysia';
+    const describe = product.describe;
+    const condition = product.condition;
+    const priceType = product.pricetype;
+    const category = product.category;
+    const location = product.location;
 
 
     const renderItem = () =>{
