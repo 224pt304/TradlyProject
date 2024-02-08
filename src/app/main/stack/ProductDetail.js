@@ -1,16 +1,14 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
-import React from 'react'
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native'
+import React, { useCallback, useState } from 'react'
 import Swiper from 'react-native-swiper';
 import TitleBar from './TitleBar';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import AxiosInstance from '../../../helper/AxiosInstance';
 
 const ProductDetail = ({ route }) => {
     const navigation = useNavigation();
     const { product } = route.params;
-    const images = [];
-
-    images.add(product.image);
-
+    const images = product.image;
     const nameProduct = product.nameProduct;
     const cost = product.price;
     const sale = product.sale;
@@ -19,14 +17,87 @@ const ProductDetail = ({ route }) => {
     const priceType = product.pricetype;
     const category = product.category;
     const location = product.location;
+    const [users, setusers] = useState([]);
 
 
-    const renderItem = () =>{
+    function generateRandomId(prefix, length) {
+        var randomId = prefix + '_';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            randomId += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return randomId;
+    }
+
+    const addfavorite = async () => {
+        const data = {
+            id: generateRandomId('id', 6),
+            idproduct: product.id,
+            nameProduct: product.nameProduct,
+            price: product.price,
+            image: product.image,
+            quantity: product.quantity,
+            evaluate: product.evaluate,
+            sale: product.sale,
+            describe: product.describe,
+            condition: product.condition,
+            pricetype: product.pricetype,
+            category: product.category,
+            location: product.location,
+        }
+
+        try {
+            let result = "";
+            let datafavorite = users.favorites;
+            if (datafavorite.some(pr => pr.idproduct === product.id)) {
+                datafavorite = datafavorite.filter(pr => pr.idproduct !== product.id);
+                    Alert.alert("Đã gỡ yêu thích");
+            } else {
+                datafavorite = [...datafavorite, {...data}];
+                    Alert.alert("Đã thêm yêu thích");
+            }
+            console.log(datafavorite)
+            setusers({ ...users, favorites: datafavorite }); 
+            result = await AxiosInstance()
+                    .put(`/users/1`, { ...users, favorites: datafavorite });
+            
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    const getFavrite = async () => {
+        console.log('on get Favorites');
+        try {
+            const result = await AxiosInstance()
+                .get(`/users/1`, null);
+            if (result !== null) {
+                setusers(result);
+                console.log(result.favorites);
+            }
+            else {
+                console.log("lỗi kết nối")
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            getFavrite();
+        }, [])
+    )
+
+    const renderItem = () => {
+
         return images.map((imag, index) => (
             <View key={index}>
                 <Image
                     style={{ width: '100%', height: '100%', }}
-                    source={{ uri: imag }} />
+                    source={{ uri: imag.img }} />
             </View>
         ))
     }
@@ -35,30 +106,31 @@ const ProductDetail = ({ route }) => {
         <View style={styles.fullScreen}>
             <View style={styles.heightTopBar}>
                 {/* task bar */}
-                <View style={ styles.containerTopBar}>
-                    <TouchableOpacity 
-                    onPress={()=> navigation.goBack()}>
+                <View style={styles.containerTopBar}>
+                    <TouchableOpacity
+                        onPress={() => navigation.goBack()}>
                         <Image
-                            style={[styles.iconTopBar,styles.left]}
+                            style={[styles.iconTopBar, styles.left]}
                             source={require('../../../../assets/images/back.png')} />
                         <Image
-                            style={[styles.iconElcipTopBar,styles.left]}
+                            style={[styles.iconElcipTopBar, styles.left]}
                             source={require('../../../../assets/images/Ellipse.png')} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => addfavorite()}>
                         <Image
-                            style={[styles.iconTopBar,styles.right] }
+                            style={[styles.iconTopBar, styles.right]}
                             source={require('../../../../assets/images/love.png')} />
                         <Image
-                            style={[styles.iconElcipTopBar,styles.right]}
+                            style={[styles.iconElcipTopBar, styles.right]}
                             source={require('../../../../assets/images/Ellipse.png')} />
                     </TouchableOpacity>
                 </View>
 
 
 
-                <Swiper 
+                <Swiper
                     showsButtons={false} autoplay
                     showsPagination={true}
                     autoplayTimeout={3}
@@ -76,21 +148,21 @@ const ProductDetail = ({ route }) => {
                         <Text style={[styles.textprice, styles.textBold]}>${sale != 0 ? (cost - (cost * sale / 100)).toFixed(2) : cost}</Text>
                         {sale &&
                             <View style={styles.flexRow}>
-                                <Text style={[styles.smallText,styles.textFirstPrice]}>${cost} </Text>
+                                <Text style={[styles.smallText, styles.textFirstPrice]}>${cost} </Text>
                                 <Text style={styles.smallText}>{sale}% off</Text>
                             </View>}
                     </View>
                 </View>
 
                 <View style={styles.marginViewTextDescripe}>
-                    <Text style={[styles.text,styles.smallText]}>{describe}</Text>
+                    <Text style={[styles.text, styles.smallText]}>{describe}</Text>
                 </View>
 
                 <View style={styles.marginViewTextDescripe}>
                     <Text style={styles.textDetail}>Details</Text>
                     <View style={styles.flexRow}>
                         <View>
-                            <Text style={styles.textDetail2 }>Condition</Text>
+                            <Text style={styles.textDetail2}>Condition</Text>
                             <Text style={styles.textDetail2}>Price Type</Text>
                             <Text style={styles.textDetail2}>Category</Text>
                             <Text style={styles.textDetail2}>Location</Text>
@@ -119,12 +191,12 @@ const ProductDetail = ({ route }) => {
 }
 
 const styles = StyleSheet.create({
-    textButton:{
+    textButton: {
         color: 'white',
         fontSize: 18,
         fontWeight: 'bold'
     },
-    button:{
+    button: {
         backgroundColor: '#33907C',
         width: '90%',
         height: 50,
@@ -132,78 +204,79 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    smallText:{
-        fontSize: 14 
+    smallText: {
+        fontSize: 14
     },
-    textFirstPrice:{
+    textFirstPrice: {
         textDecorationLine: 'line-through',
-         marginLeft: 14, 
+        marginLeft: 14,
     },
-    flexRow:{
+    flexRow: {
         flexDirection: 'row'
     },
-    textprice:{
-        fontSize: 18, 
+    textprice: {
+        fontSize: 18,
         color: '#33907C'
     },
-    viewprice:{
+    viewprice: {
         marginTop: 10,
         flexDirection: 'row',
         alignItems: 'baseline'
     },
-    textname:{
-        fontSize: 16, 
+    textname: {
+        fontSize: 16,
         color: '#4F4F4F',
     },
-    right:{
+    right: {
         right: 0,
     },
-    left:{
-        left: 0, 
+    left: {
+        left: 0,
     },
-    iconElcipTopBar:{
-        width: 32, 
-        height: 32, 
-        position: 'absolute', 
-        margin: -8 
+    iconElcipTopBar: {
+        width: 32,
+        height: 32,
+        position: 'absolute',
+        margin: -8
     },
-    iconTopBar:{
+    iconTopBar: {
         width: 18,
-        height: 15, 
+        height: 15,
+        zIndex: 10
     },
-    containerTopBar:{
+    containerTopBar: {
         width: '100%',
-        padding: 20, 
-        position: 'absolute', 
-        flexDirection: 'row', 
-        justifyContent: 'space-between', 
+        padding: 20,
+        position: 'absolute',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         zIndex: 3,
     },
-    heightTopBar:{
+    heightTopBar: {
         height: 230,
-    },  
-    fullScreen:{
-        backgroundColor: 'white', 
+    },
+    fullScreen: {
+        backgroundColor: 'white',
         flex: 1
     },
-    marginViewTextDescripe:{
-        margin: 25 ,
+    marginViewTextDescripe: {
+        margin: 25,
     },
-    textDetail2:{
+    textDetail2: {
         lineHeight: 20,
         color: '#4F4F4F',
         fontSize: 14,
         marginBottom: 10,
     },
-    textDetail2Right:{
+    textDetail2Right: {
         marginLeft: 32
     },
-    textDetail:{
-        fontSize: 18, 
-        marginBottom: 15, 
-        color: 'black', 
-        fontWeight: '600', 
-        lineHeight: 20 
+    textDetail: {
+        fontSize: 18,
+        marginBottom: 15,
+        color: 'black',
+        fontWeight: '600',
+        lineHeight: 20
     },
     text: {
         lineHeight: 20,

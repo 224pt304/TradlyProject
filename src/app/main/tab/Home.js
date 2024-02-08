@@ -18,7 +18,6 @@ const Home = () => {
         .get(`/products`, null); 
       if (result !== null) {
        setproduct(result);
-       console.log(result);
       }
       else {
         console.log("lỗi kết nối")
@@ -54,7 +53,7 @@ const Home = () => {
           onPress={() => navigation.navigate('ProductDetail', { product: item })}>
           <Image
             style={styles.img}
-            source={{ uri: item.image }} />
+            source={{ uri: item.image[0].img }} />
             
           <View style={styles.containerDetail}>
             <Text style={styles.name}>{item.nameProduct}</Text>
