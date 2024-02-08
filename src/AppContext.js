@@ -8,6 +8,7 @@ export const AppContextProvider = (props) => {
     const [favrite, setfavrite] = useState([]);
     const [history, sethistory] = useState([]);
     const [feedback, setfeedback] = useState([]);
+    const [Browser, setBrowser] = useState([]);
 
     return (
         <AppContext.Provider value={{
@@ -15,7 +16,8 @@ export const AppContextProvider = (props) => {
             cart, setcart,
             favrite, setfavrite,
             history, sethistory,
-            feedback, setfeedback
+            feedback, setfeedback,
+            Browser, setBrowser
         }}>
             {children}
         </AppContext.Provider>

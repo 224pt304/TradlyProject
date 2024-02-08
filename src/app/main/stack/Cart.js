@@ -38,9 +38,6 @@ const Cart = ({ route }) => {
   }
 
 
-
-
-
   const renderItem = (item) => {
     console.log(item.quanlity);
     return (
@@ -82,7 +79,6 @@ const Cart = ({ route }) => {
   }
 
 
-
   return (
     <View style={myStyle.container}>
       <StatusBar backgroundColor={'#33907C'}></StatusBar>
@@ -122,9 +118,6 @@ const Cart = ({ route }) => {
       }
 
 
-
-
-
       <FlatList
         style={{ marginBottom: 10 }}
         data={list}
@@ -132,6 +125,7 @@ const Cart = ({ route }) => {
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
       />
+
       <View style={myStyle.detalts}>
         <Text style={[myStyle.textdetalt, { fontSize: 18 }]}>Price Detailt</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 10 }}>

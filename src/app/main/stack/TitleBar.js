@@ -1,9 +1,12 @@
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigation } from '@react-navigation/native';
+import { AppContext } from '../../../AppContext';
 const TitleBar = (props) => {
     const navigation = useNavigation();
+    const {Browser, setBrowser} = useContext(AppContext);
     const { title } = props;
+    let all = [...Browser];
     return (
         <View style={[styles.container,{marginBottom: (title === 'Home' || title === 'Browser') ? 100 : 0}]}>
             <View style={styles.Header}>

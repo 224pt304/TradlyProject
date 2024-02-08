@@ -1,36 +1,24 @@
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from "react-native"
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import TitleBar from "../stack/TitleBar";
 import AxiosInstance from "../../../helper/AxiosInstance";
+import { AppContext } from "../../../AppContext";
 
 const Browser = () => {
   const navigation = useNavigation();
-
-  const [data, setproduct] = useState([]);
-
-  const getProducts = async () =>{
-    console.log('on get Products');
-    try {
-      const result = await AxiosInstance()
-        .get(`/products`, null); 
-      if (result !== null) {
-       setproduct(result);
-      }
-      else {
-        console.log("lỗi kết nối")
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  const {Browser} = useContext(AppContext);
+  const [data, setproduct] = useState(Browser);
 
   useFocusEffect(
     useCallback(()=>{
-      getProducts();
+      setproduct(Browser);
     },[])
   )
 
+  useEffect(()=>{
+    setproduct(Browser);
+  },[Browser]);
 
   const renderItem = ({ item }) => {
     return (

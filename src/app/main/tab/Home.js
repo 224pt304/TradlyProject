@@ -1,23 +1,25 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import TitleBar from '../stack/TitleBar';
 import Swiper from 'react-native-swiper';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AxiosInstance from '../../../helper/AxiosInstance';
+import { AppContext } from '../../../AppContext';
 const Home = () => {
   const [image, setimage] = useState(JSON.parse(imagejs));
   const [catalog, setcatalog] = useState(JSON.parse(catalogjs));
   const [product, setproduct] = useState([]);
-
+  const {setBrowser} = useContext(AppContext);
   const navigation = useNavigation();
 
   const getProducts = async () =>{
     console.log('on get Products');
     try {
       const result = await AxiosInstance()
-        .get(`/products`, null); 
+        .get(`products`, null); 
       if (result !== null) {
        setproduct(result);
+       setBrowser(result);
       }
       else {
         console.log("lỗi kết nối")
