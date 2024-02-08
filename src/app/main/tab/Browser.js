@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "43%",
-    height: 220,
+    height: 230,
     margin: 15,
     backgroundColor: "white",
     borderTopLeftRadius: 10,

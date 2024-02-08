@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
   },
   containerrender: {
     width: 160,
-    height: 220,
+    height: 230,
     margin: 15,
     backgroundColor: "white",
     borderRadius: 10,
