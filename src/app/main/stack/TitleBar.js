@@ -1,12 +1,63 @@
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { AppContext } from '../../../AppContext';
+import AxiosInstance from '../../../helper/AxiosInstance';
 const TitleBar = (props) => {
     const navigation = useNavigation();
     const {Browser, setBrowser} = useContext(AppContext);
+    const [databrowser, setdatabrowser] = useState(Browser);
+    const [search, setsearch] = useState("");
     const { title } = props;
-    let all = [...Browser];
+
+    useEffect(() =>{
+        setdatabrowser(Browser);
+    },[Browser]);
+
+    const getAllproduct =async ()=>{
+        try {
+            result = await AxiosInstance()
+                    .get(`/products`, null);
+            if(result !== null){
+                setBrowser(result);
+            }else{
+                console.log("lỗi kết nối")
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const getBrowserproduct = async () =>{
+        try {
+            result = await AxiosInstance()
+                    .get(`/products?nameProduct=${search}`, null);
+            if(result !== null){
+                setBrowser(result);
+            }else{
+                console.log("lỗi kết nối")
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    const submit = () =>{
+
+        if(title === 'Browser'){
+
+            if(search.trim !== null){
+                getBrowserproduct();
+            }else{
+                getAllproduct();
+            }
+
+        }else{
+            
+        }
+    }
+
     return (
         <View style={[styles.container,{marginBottom: (title === 'Home' || title === 'Browser') ? 100 : 0}]}>
             <View style={styles.Header}>
@@ -19,8 +70,11 @@ const TitleBar = (props) => {
             {(title === 'Home' || title === 'Browser') &&
                 <View style={[styles.Header, styles.centerView]}>
                     <TextInput
+                        value={search}
+                        onChangeText={(text) => setsearch(text)}
                         style={styles.textInput}
-                        placeholder='Nhập tìm kiếm' />
+                        placeholder='Nhập tìm kiếm'
+                        onSubmitEditing={()=>submit()} />
 
                     {title === 'Browser' &&
                         <View style={styles.viewSort}>

@@ -8,6 +8,7 @@ import AxiosInstance from '../../../helper/AxiosInstance';
 const ProductDetail = ({ route }) => {
     const navigation = useNavigation();
     const { product } = route.params;
+
     const images = product.image;
     const nameProduct = product.nameProduct;
     const cost = product.price;
@@ -17,6 +18,7 @@ const ProductDetail = ({ route }) => {
     const priceType = product.pricetype;
     const category = product.category;
     const location = product.location;
+
     const [users, setusers] = useState([]);
 
 
@@ -30,8 +32,8 @@ const ProductDetail = ({ route }) => {
         return randomId;
     }
 
-    const addfavorite = async () => {
-        const data = {
+    function datas(){
+        return {
             id: generateRandomId('id', 6),
             idproduct: product.id,
             nameProduct: product.nameProduct,
@@ -45,37 +47,41 @@ const ProductDetail = ({ route }) => {
             pricetype: product.pricetype,
             category: product.category,
             location: product.location,
-        }
+        };
+    }
 
+    const addfavorite = async () => {
+        const data = datas();
         try {
-            let result = "";
             let datafavorite = users.favorites;
-            if (datafavorite.some(pr => pr.idproduct === product.id)) {
-                datafavorite = datafavorite.filter(pr => pr.idproduct !== product.id);
-                    Alert.alert("Đã gỡ yêu thích");
+            console.log(datafavorite);
+
+            if (datafavorite.length == 0 || !datafavorite.some(pr => pr.idproduct === product.id)) {
+                datafavorite = [...datafavorite, { ...data }];
+                Alert.alert("Đã thêm yêu thích");
             } else {
-                datafavorite = [...datafavorite, {...data}];
-                    Alert.alert("Đã thêm yêu thích");
+                datafavorite = datafavorite.filter(pr => pr.idproduct !== product.id);
+                Alert.alert("Đã gỡ yêu thích");
             }
-            console.log(datafavorite)
-            setusers({ ...users, favorites: datafavorite }); 
-            result = await AxiosInstance()
-                    .put(`/users/1`, { ...users, favorites: datafavorite });
-            
+
+
+            setusers({ ...users, favorites: datafavorite });
+            const result = await AxiosInstance()
+                .put(`/users/1`, { ...users, favorites: datafavorite });
+
         } catch (error) {
             console.log(error)
         }
 
     }
 
-    const getFavrite = async () => {
+    const getUser = async () => {
         console.log('on get Favorites');
         try {
             const result = await AxiosInstance()
                 .get(`/users/1`, null);
             if (result !== null) {
                 setusers(result);
-                console.log(result.favorites);
             }
             else {
                 console.log("lỗi kết nối")
@@ -87,9 +93,38 @@ const ProductDetail = ({ route }) => {
 
     useFocusEffect(
         useCallback(() => {
-            getFavrite();
+            getUser();
         }, [])
     )
+
+    const addtoCart = async () =>{
+        let data = datas();
+        data = {...data, count: 1}
+
+        try {
+            let datacart = users.carts;
+            if (datacart === null || !datacart.some(pr => pr.idproduct === product.id)) {
+                datacart = [...datacart, { ...data }];
+            } else {
+                datacart = datacart.map(pr => {
+                    if(pr.idproduct === product.id){
+                        pr.count++;
+                    }
+                    return pr;
+                });
+            }
+            console.log(datacart);
+            await getUser();
+            Alert.alert("Đã thêm giỏ hàng thành công");
+
+            setusers({ ...users, carts: datacart });
+            const result = await AxiosInstance()
+                .put(`/users/1`, { ...users, carts: datacart });
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const renderItem = () => {
 
@@ -178,6 +213,7 @@ const ProductDetail = ({ route }) => {
 
                 <View style={{ alignItems: 'center' }}>
                     <TouchableOpacity
+                    onPress={()=>addtoCart()}
                         style={styles.button}>
                         <Text
                             style={styles.textButton}>

@@ -151,10 +151,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   containerprice:{
-    flexDirection: 'row', 
-    flexWrap: 'wrap', 
     marginTop: 10,
-     alignItems: 'baseline'
   },
   containerDetail: {
     height: 60 , 

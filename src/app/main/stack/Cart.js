@@ -1,51 +1,91 @@
 import { Image, StyleSheet, Text, View, Pressable, FlatList, StatusBar, TouchableOpacity, Alert, Button } from 'react-native'
-import React, { useState } from 'react'
-import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react'
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import AxiosInstance from '../../../helper/AxiosInstance';
 
 const Cart = ({ route }) => {
   const { listaddress } = route.params;
 
   const navigation = useNavigation();
 
-  const [list, setlistsp] = useState(DATA);
-  const countprice = list.reduce((tong, data) => tong + data.price, 0);
+  const [users, setusers] = useState([])
+  const [list, setlistsp] = useState(users);
+  const [countprice, setcountprice] = useState(0);
+
+  useEffect(() => {
+    setcountprice(list.reduce((tong, data) => tong + data.price, 0));
+  }, [list]);
+
+  const getUser = async () => {
+    console.log('on get Carts');
+    try {
+      const result = await AxiosInstance()
+        .get(`/users/1`, null);
+      if (result !== null) {
+        setusers(result);
+        setlistsp(result.carts);
+        console.log('success');
+      }
+      else {
+        console.log("lỗi kết nối")
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const updateCart = async (listdatacart) => {
+    console.log('on update Carts');
+    try {
+      const result = await AxiosInstance()
+        .put(`/users/1`, { ...users, carts: listdatacart });
+      console.log('success');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      getUser();
+    }, [])
+  )
 
 
-  const remove = (value) => {
-    setlistsp(list.filter(item => item.id !== value.id));
+  function remove (value){
+    const listphu = list.filter(item => item.id !== value.id)
+    setlistsp(listphu);
+    updateCart(listphu);
   }
 
   function updateQuantity(productId, action) {
     // Tìm sản phẩm trong mảng DATA dựa trên productId
-    const product = DATA.find(item => item.id === productId);
-
+    const product = list.find(item => item.id === productId);
     if (product) {
       // Cập nhật số lượng dựa vào hành động (tăng hoặc giảm)
       if (action === 'increase') {
-
         setlistsp(
-          list.map((item) => (item.id === productId ? { ...item, quanlity: product.quanlity += 1 } : item))
+          list.map((item) => (item.id === productId ? { ...item, count: product.count += 1 } : item))
         );
-      } else if (action === 'decrease' && product.quanlity > 1) {
-        product.quanlity -= 1;
+      } else if (action === 'decrease' && product.count > 1) {
         setlistsp(
-          list.map((item) => (item.id === productId ? { ...item, quanlity: product.quanlity } : item))
+          list.map((item) => (item.id === productId ? { ...item, count: product.count -= 1 } : item))
         );
       }
 
+      updateCart(list);
       // Gọi hàm cập nhật giao diện hoặc làm các công việc khác cần thiết ở đây
     }
   }
 
 
   const renderItem = (item) => {
-    console.log(item.quanlity);
     return (
       <View style={myStyle.backgroundsp}>
         <View style={myStyle.sp}>
-          <View><Image style={myStyle.imgsp} source={require('../../../../assets/images/img_cocacola.png')} /></View>
+          <View><Image style={myStyle.imgsp} source={{ uri: item.image[0].img }} /></View>
           <View style={myStyle.viewsp}>
-            <Text style={myStyle.namesp}>{item.name}</Text>
+            <Text style={myStyle.namesp}>{item.nameProduct}</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 20 }}>
               <Text style={myStyle.price}>{item.price}$</Text>
               <Text style={myStyle.sale}>{item.sale}% off</Text>
@@ -59,7 +99,7 @@ const Cart = ({ route }) => {
                   style={myStyle.leftquanlity}
                   source={require('../../../../assets/images/left-arrow.png')} />
               </Pressable>
-              <Text style={myStyle.numquanlity}>{item.quanlity}</Text>
+              <Text style={myStyle.numquanlity}>{item.count}</Text>
               <Pressable onPress={() => {
                 updateQuantity(item.id, 'increase')
               }}>
@@ -106,11 +146,11 @@ const Cart = ({ route }) => {
           :
           <View style={myStyle.listaddress}>
             <View style={myStyle.viewaddress}>
-                <Text>{listaddress.name},{listaddress.phone},{listaddress.streetaddress},{listaddress.city},{listaddress.zipcode}</Text>
+              <Text>{listaddress.name},{listaddress.phone},{listaddress.streetaddress},{listaddress.city},{listaddress.zipcode}</Text>
             </View>
             <View style={myStyle.viewchange}>
-              <Pressable style={myStyle.change} 
-              onPress={()=> navigation.navigate('Add_address')}>
+              <Pressable style={myStyle.change}
+                onPress={() => navigation.navigate('Add_address')}>
                 <Text style={myStyle.txtchange}>Change</Text>
               </Pressable>
             </View>
@@ -144,7 +184,7 @@ const Cart = ({ route }) => {
         <TouchableOpacity style={myStyle.touchableOpacity}
 
           onPress={
-            () => listaddress == "" ? Alert.alert('Vui lòng nhập địa chỉ') : navigation.navigate('Order_details', { listorder: list,listaddress:listaddress})
+            () => listaddress == "" ? Alert.alert('Vui lòng nhập địa chỉ') : navigation.navigate('Order_details', { listorder: list, listaddress: listaddress })
           }
         >
           <Text style={myStyle.textPayment}>Coninue to Payment</Text>
@@ -158,11 +198,11 @@ const Cart = ({ route }) => {
 export default Cart
 
 const myStyle = StyleSheet.create({
-  addresstext:{
-    color:'#4F4F4F',
-    fontSize:15,
-    fontWeight:'500'
-    
+  addresstext: {
+    color: '#4F4F4F',
+    fontSize: 15,
+    fontWeight: '500'
+
   },
   txtchange: {
     color: 'white',
@@ -189,9 +229,9 @@ const myStyle = StyleSheet.create({
   },
   listaddress: {
     flexDirection: 'row',
-    backgroundColor:'white',
-    paddingVertical:20
-    
+    backgroundColor: 'white',
+    paddingVertical: 20
+
   },
   textPayment: {
     color: 'white',
