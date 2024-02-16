@@ -1,21 +1,59 @@
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import TitleBar from './TitleBar'
+import { AppContext } from '../../../AppContext'
+import { useEffect } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import AxiosInstance from '../../../helper/AxiosInstance'
 
 const FeedBack = () => {
-    const [data, setData] = useState([
-        { id: 1, img: "https://i.imgur.com/Wb3ux6q.png", date_time: "12:00 22/10/2023", evaluate: 1, name: "Coca Cola" },
-        { id: 2, img: "https://i.imgur.com/Wb3ux6q.png", date_time: "11:00 22/10/2023", evaluate: 2, name: "Pessi" },
-        { id: 3, img: "https://i.imgur.com/Wb3ux6q.png", date_time: "10:00 22/10/2023", evaluate: 3, name: "Monsta" },
-        { id: 4, img: "https://i.imgur.com/Wb3ux6q.png", date_time: "13:00 22/10/2023", evaluate: 4, name: "Fanta" },
-        { id: 5, img: "https://i.imgur.com/Wb3ux6q.png", date_time: "14:00 22/10/2023", evaluate: 5, name: "7 Up" },
-        { id: 6, img: "https://i.imgur.com/Wb3ux6q.png", date_time: "15:00 22/10/2023", evaluate: 3, name: "Stronbow" }
-    ]);
+    const { feedback, setfeedback } = useContext(AppContext);
+    const [data, setData] = useState([]);
+    const [users, setusers] = useState([]);
 
+    //Lấy data người dùng
+    const getUser = async () => {
+        try {
+            const result = await AxiosInstance()
+                .get(`/users/1`, null);
+            if (result !== null) {
+                setusers(result);
+                setfeedback(result.feedbacks);
+                setData(feedback);
+            }
+            else {
+                console.log("lỗi kết nối")
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
     const Remove = (value) => {
-        const updatedData = data.filter(item => item.id !== value.id);
-        setData(updatedData);
+        let dataFeedback = feedback;
+        dataFeedback = dataFeedback.filter((item) => item.id !== value.id && {...item} );
+        const updatefeedbacks = {
+            ...users,
+            feedbacks: dataFeedback
+        }
+        const putFeedback = async () => {
+            try {
+                const result = await AxiosInstance().put('/users/1/', updatefeedbacks);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        putFeedback();
     };
+
+    useEffect(() => {
+        getUser()
+    }, [feedback])
+    
+    useEffect(() => {
+        getUser()
+    }, [])
+    
     const Render_Feedback = (item) => {
         return (
             <View style={styles.Item}>

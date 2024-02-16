@@ -1,26 +1,42 @@
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import React, { useContext, useEffect, useState } from 'react'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import TitleBar from '../stack/TitleBar'
+import { AppContext } from '../../../AppContext'
+import AxiosInstance from '../../../helper/AxiosInstance'
 
 const OrderHistory = () => {
     const navigation = useNavigation();
-    const [data, setData] = useState([
-        { id: 1, name: "Coca Cola", Costs: 25, statusFeedback: 1, statusSale: 1 },
-        { id: 2, name: "Pessi", Costs: 20, statusFeedback: 1, statusSale: 0 },
-        { id: 3, name: "Panta", Costs: 15, statusFeedback: 0, statusSale: 1 },
-        { id: 4, name: "Stronbow", Costs: 5, statusFeedback: 0, statusSale: 0 },
-        { id: 5, name: "Soju", Costs: 9, statusFeedback: 1, statusSale: 0 },
-        { id: 6, name: "Tigger", Costs: 4, statusFeedback: 0, statusSale: 0 },
-        { id: 7, name: "Heleken", Costs: 5, statusFeedback: 0, statusSale: 1 },
-        { id: 8, name: "Soyya", Costs: 20, statusFeedback: 0, statusSale: 0 },
-    ]);
+    const { history, sethistory } = useContext(AppContext);
 
+    //Hàm lấy dữ liệu lịch sử mua hàng của người dùng
+    const gethistory = async () => {
+        try {
+            const result = await AxiosInstance().get('/users/1');
+            if (result != '') {
+                if(result.histories.length == 0) {
+                    console.log("mang rong");
+                }else {
+                    sethistory(result.histories);
+                }
+            } else{
+                console.log("rong du lieu");
+            }
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useFocusEffect(() => {
+        gethistory();
+    })
+    
     const render_History = ({ item }) => {
         return (
             <View style={styles.Item}>
                 <View style={styles.Box_item_content}>
-                    <Image style={styles.Image_item} source={{ uri: "https://i.imgur.com/eAkedmy.jpg" }} />
+                    <Image style={styles.Image_item} source={{ uri: item.img }} />
                     <View style={styles.Box_item_infomation}>
                         <Text style={styles.Name}>{item.name}</Text>
                         {item.statusSale == 1 ?
@@ -54,9 +70,9 @@ const OrderHistory = () => {
             <TitleBar title={"Order History"} />
             <View style={styles.Main}>
                 <Text style={styles.Transaction}>Transactions </Text>
-                <Text style={styles.Text_main_datetime}>Januari 2022</Text>
+                <Text style={styles.Text_main_datetime}>Januari 2024</Text>
             </View>
-            <FlatList data={data}
+            <FlatList data={history}
                 renderItem={({ item }) => render_History({ item })}
                 ListEmptyComponent={() => (
                     <View style={styles.Flatlist_main_emty}>
