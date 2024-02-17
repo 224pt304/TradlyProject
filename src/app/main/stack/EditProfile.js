@@ -1,25 +1,49 @@
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import TitleBar from './TitleBar'
-import { useNavigation } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import AxiosInstance from '../../../helper/AxiosInstance'
 
 const EditProfile = ({ route }) => {
-    const { profile } = route.params;
+    const { userId } = route.params;
+    const [profile, setusers] = useState([]);
+    const [username, setusername] = useState(userId.username);
+    const [email, setemail] = useState(userId.email);
+    const [phone, setphone] = useState(userId.phone);
+    const [password, setpassword] = useState(userId.password);
     const navigation = useNavigation();
+
+    const changeInfo = async () => {
+        try {
+            const updatedataUsers = {
+                ...userId,
+                username: username,
+                email: email,
+                phone: phone,
+                password: password,
+            }
+            const result = await AxiosInstance().put('/users/1/', updatedataUsers)
+            if (result !== null) {
+                Alert.alert("Thay đổi thông tin taì khoảng thành công");
+                    navigation.goBack();
+            } else {
+
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     const Save_info = () => {
-        Alert.alert("Save done");
-        setTimeout(() => {
-            navigation.goBack();
-        }, 1000);
+        changeInfo();
     }
     return (
         <View style={styles.Container}>
             <TitleBar title={"Edit profile"} />
             <View style={styles.Form_edit}>
-                <TextInput style={styles.Input_form} value={profile.name} />
-                <TextInput style={styles.Input_form} value={profile.phone} />
-                <TextInput style={styles.Input_form} value={profile.email} />
-                <TextInput style={styles.Input_form} value={profile.password} secureTextEntry={true} />
+                <TextInput style={styles.Input_form} placeholder='Username' value={username} onChangeText={(value) => setusername(value)} />
+                <TextInput style={styles.Input_form} placeholder='Email' value={email} onChangeText={(value) => setemail(value)} />
+                <TextInput style={styles.Input_form} placeholder='Phone' value={phone} onChangeText={(value) => setphone(value)} />
+                <TextInput style={styles.Input_form} placeholder='Password' value={password} secureTextEntry={true} onChangeText={(value) => setpassword(value)} />
             </View>
             <View style={styles.Save_Button_box}>
                 <TouchableOpacity onPress={() => Save_info()} style={styles.Save_button}>
