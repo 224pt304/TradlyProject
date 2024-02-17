@@ -79,7 +79,6 @@ const Cart = ({ route }) => {
   }
 
   const ordersucceed = async () => {
-    const data = datas();
     try {
       let datahistories = users.histories;
       console.log(datahistories)
@@ -204,9 +203,14 @@ const Cart = ({ route }) => {
         <TouchableOpacity style={myStyle.touchableOpacity}
 
           onPress={() => {
-            ordersucceed();
-            listaddress == "" ? Alert.alert('Vui lòng nhập địa chỉ') : navigation.navigate('Order_details', { listorder: list, listaddress: listaddress })
-
+            
+            
+            if(listaddress == ""){
+              ToastAndroid.show('Vui lòng nhập địa chỉ',ToastAndroid.LONG)
+            }else{
+              ordersucceed();
+              navigation.navigate('Order_details', { listorder: list, listaddress: listaddress } )
+            }
           }}
         >
           <Text style={myStyle.textPayment}>Coninue to Payment</Text>
