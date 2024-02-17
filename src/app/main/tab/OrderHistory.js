@@ -29,7 +29,7 @@ const OrderHistory = () => {
         }
     }
 
-    useFocusEffect(() => {
+    useEffect(() => {
         gethistory();
     })
     

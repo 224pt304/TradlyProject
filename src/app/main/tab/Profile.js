@@ -37,6 +37,7 @@ const Profile = () => {
         getUser()
     })
     function Logout() {
+        setislogin(false);
     }
     const navigation = useNavigation();
     const avata = users.username+'';
