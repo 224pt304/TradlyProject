@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View, Pressable, FlatList, StatusBar, TouchableOpacity, Alert, Button } from 'react-native'
+import { Image, StyleSheet, Text, View, Pressable, FlatList, StatusBar, TouchableOpacity, Alert, Button,ToastAndroid } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AxiosInstance from '../../../helper/AxiosInstance';
@@ -52,7 +52,7 @@ const Cart = ({ route }) => {
   )
 
 
-  function remove (value){
+  function remove(value) {
     const listphu = list.filter(item => item.id !== value.id)
     setlistsp(listphu);
     updateCart(listphu);
@@ -76,6 +76,26 @@ const Cart = ({ route }) => {
       updateCart(list);
       // Gọi hàm cập nhật giao diện hoặc làm các công việc khác cần thiết ở đây
     }
+  }
+
+  const ordersucceed = async () => {
+    const data = datas();
+    try {
+      let datahistories = users.histories;
+      console.log(datahistories)
+
+      datahistories = datahistories.concat([...list]);
+      ToastAndroid.show('Đặt hàng thành công', ToastAndroid.LONG);
+
+      setusers({ ...users, histories: datahistories });
+      const result = await AxiosInstance()
+        .put(`/users/1`, { ...users, histories: datahistories });
+
+    } catch (error) {
+      console.log(error)
+    }
+
+
   }
 
 
@@ -183,9 +203,11 @@ const Cart = ({ route }) => {
         </View>
         <TouchableOpacity style={myStyle.touchableOpacity}
 
-          onPress={
-            () => listaddress == "" ? Alert.alert('Vui lòng nhập địa chỉ') : navigation.navigate('Order_details', { listorder: list, listaddress: listaddress })
-          }
+          onPress={() => {
+            ordersucceed();
+            listaddress == "" ? Alert.alert('Vui lòng nhập địa chỉ') : navigation.navigate('Order_details', { listorder: list, listaddress: listaddress })
+
+          }}
         >
           <Text style={myStyle.textPayment}>Coninue to Payment</Text>
         </TouchableOpacity>

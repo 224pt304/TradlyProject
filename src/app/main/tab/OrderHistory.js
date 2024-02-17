@@ -18,6 +18,7 @@ const OrderHistory = () => {
                     console.log("mang rong");
                 }else {
                     sethistory(result.histories);
+                    // console.log(history)
                 }
             } else{
                 console.log("rong du lieu");
@@ -38,15 +39,15 @@ const OrderHistory = () => {
                 <View style={styles.Box_item_content}>
                     <Image style={styles.Image_item} source={{ uri: item.img }} />
                     <View style={styles.Box_item_infomation}>
-                        <Text style={styles.Name}>{item.name}</Text>
+                        <Text style={styles.Name}>{item.nameProduct}</Text>
                         {item.statusSale == 1 ?
                             <View style={styles.Box_item_costs}>
-                                <Text style={styles.Costs}>${item.Costs}</Text>
+                                <Text style={styles.Costs}>${item.price}</Text>
                                 <Text style={styles.Text_item_sale}>50%</Text>
                                 <Text>Off</Text>
                             </View>
                             :
-                            <Text style={styles.Costs}>${item.Costs}</Text>
+                            <Text style={styles.Costs}>${item.price}</Text>
                         }
 
                     </View>
