@@ -1,11 +1,14 @@
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Alert } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import TitleBar from '../stack/TitleBar'
 import AxiosInstance from '../../../helper/AxiosInstance'
+import Onboarding from '../../authen/Onboarding'
+import { AppContext } from '../../../AppContext'
 
 const Profile = () => {
     const [users, setusers] = useState([]);
+    const {isLogin, setislogin} = useContext(AppContext);
     //Lấy data người dùng
     const getUser = async () => {
         try {
@@ -22,16 +25,19 @@ const Profile = () => {
         }
     }
     const [options, setOptions] = useState([
-        { id: 1, name: "Edit profile" },
-        { id: 2, name: "About our" },
-        { id: 3, name: "Feedback" },
-        { id: 4, name: "Logout" },
+        { id: 1, name: "Edit profile", img:"https://i.imgur.com/C2U2Wy2.png" },
+        { id: 2, name: "About our", img:"https://i.imgur.com/OXks1mz.png" },
+        { id: 3, name: "Feedback" , img:"https://i.imgur.com/spDNy9h.png"},
+        { id: 4, name: "Help", img:"https://i.imgur.com/cdMIOrH.png" },
+        { id: 5, name: "Setting", img:"https://i.imgur.com/LQj7Jov.png" },
+        { id: 0, name: "Logout", img:"https://i.imgur.com/rFU0zl6.png" },
     ])
 
     useEffect(() => {
         getUser()
     })
-    
+    function Logout() {
+    }
     const navigation = useNavigation();
     const avata = users.username+'';
     const onSettingnavigate = (value) => {
@@ -45,8 +51,8 @@ const Profile = () => {
             case 3:
                 navigation.navigate('FeedBack');
                 break;
-            case 4:
-                navigation.navigate('Login');
+            case 0:
+                Logout();
                 break;
             default:
                 break;
@@ -55,6 +61,9 @@ const Profile = () => {
     const render_Opntion = ({item}) => {
         return (
             <TouchableOpacity onPress={() => onSettingnavigate(item)} style={styles.Item}>
+                <View>
+                <Image style={{width: 20, height: 20, resizeMode: 'cover', marginHorizontal: 10}} source={{uri: item.img}}/>
+                </View>
                 <Text style={styles.Text_option}>{item.name}</Text>
             </TouchableOpacity>
         )
@@ -131,9 +140,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     Item: {
-        padding: 15,
+        padding: 10,
+        paddingVertical: 20,
         borderBottomColor: '#F0F0F0',
         borderBottomWidth: 1,
+        flexDirection: 'row'
     },
     Container: {
         width: '100%',
