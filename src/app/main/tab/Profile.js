@@ -1,17 +1,26 @@
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Alert } from 'react-native'
-import React, { useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import React, { useEffect, useState } from 'react'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import TitleBar from '../stack/TitleBar'
+import AxiosInstance from '../../../helper/AxiosInstance'
 
 const Profile = () => {
-    const [data, setData] = useState({
-        id: 1,
-        name: 'Nguyễn Xuân Quỳnh',
-        phone: '0623456785',
-        email: 'quynhga@gmail.com',
-        password: 'quynhga123'
-    });
-
+    const [users, setusers] = useState([]);
+    //Lấy data người dùng
+    const getUser = async () => {
+        try {
+            const result = await AxiosInstance()
+                .get(`/users/1`, null);
+            if (result !== null) {
+                setusers(result);
+            }
+            else {
+                console.log("lỗi kết nối")
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     const [options, setOptions] = useState([
         { id: 1, name: "Edit profile" },
         { id: 2, name: "About our" },
@@ -19,12 +28,16 @@ const Profile = () => {
         { id: 4, name: "Logout" },
     ])
 
+    useEffect(() => {
+        getUser()
+    })
+    
     const navigation = useNavigation();
-    const avata = data.name.substring(0, 1);
+    const avata = users.username+'';
     const onSettingnavigate = (value) => {
         switch (value.id) {
             case 1:
-                navigation.navigate('EditProfile', { profile: data });
+                navigation.navigate('EditProfile', {userId : users});
                 break;
             case 2:
                 navigation.navigate('About');
@@ -52,13 +65,13 @@ const Profile = () => {
             <View style={styles.Box_infomation}>
                 <View style={styles.Box_avata}>
                     <Image style={styles.Image_avata} source={{ uri: "https://i.imgur.com/t6abmk3.jpg" }} />
-                    <Text style={styles.Text_avata}>{avata}</Text>
+                    <Text style={styles.Text_avata}>{avata.substring(0,1)}</Text>
                 </View>
                 <View style={styles.Box_content_infomation}>
                     <View style={{ flex: 2, justifyContent: 'space-evenly' }}>
-                        <Text style={styles.Name}>{data.name}</Text>
-                        <Text style={styles.Phone}>{data.phone}</Text>
-                        <Text style={styles.Email}>{data.email}</Text>
+                        <Text style={styles.Name}>{users.username}</Text>
+                        <Text style={styles.Phone}>{users.phone}</Text>
+                        <Text style={styles.Email}>{users.email}</Text>
                     </View>
                     <View style={{ flex: 5 }}></View>
                 </View>
