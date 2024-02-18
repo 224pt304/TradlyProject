@@ -10,6 +10,7 @@ const TitleBar = (props) => {
     const [search, setsearch] = useState("");
     const { title } = props;
 
+    
     useEffect(() =>{
         setdatabrowser(Browser);
     },[Browser]);
@@ -44,17 +45,14 @@ const TitleBar = (props) => {
     }
 
     const submit = () =>{
+        if(title !== 'Browser'){
+            navigation.navigate('Browser');
+        }
 
-        if(title === 'Browser'){
-
-            if(search.trim !== null){
-                getBrowserproduct();
-            }else{
-                getAllproduct();
-            }
-
+        if(search.trim !== null){
+            getBrowserproduct();
         }else{
-            
+            getAllproduct();
         }
     }
 

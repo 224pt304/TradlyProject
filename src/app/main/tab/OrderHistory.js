@@ -7,12 +7,13 @@ import AxiosInstance from '../../../helper/AxiosInstance'
 
 const OrderHistory = () => {
     const navigation = useNavigation();
-    const { history, sethistory } = useContext(AppContext);
+    const { history, sethistory,user, setuser } = useContext(AppContext);
+    const id = user.id
     const [data, setdata] = useState([]);
     //Hàm lấy dữ liệu lịch sử mua hàng của người dùng
     const gethistory = async () => {
         try {
-            const result = await AxiosInstance().get('/users/1');
+            const result = await AxiosInstance().get('/users/'+id);
             if (result != '') {
                 if (result.histories.length == 0) {
                     console.log("mang rong");
