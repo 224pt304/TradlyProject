@@ -8,7 +8,7 @@ import { AppContext } from '../../../AppContext'
 
 const Profile = () => {
     const [users, setusers] = useState([]);
-    const {isLogin, setislogin} = useContext(AppContext);
+    const {isLogin, setisLogin} = useContext(AppContext);
     //Lấy data người dùng
     const getUser = async () => {
         try {
@@ -37,7 +37,7 @@ const Profile = () => {
         getUser()
     })
     function Logout() {
-        setislogin(false);
+        setisLogin(false);
     }
     const navigation = useNavigation();
     const avata = users.username+'';
