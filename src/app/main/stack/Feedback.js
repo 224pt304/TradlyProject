@@ -1,5 +1,5 @@
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import TitleBar from './TitleBar'
 import { AppContext } from '../../../AppContext'
 import { useEffect } from 'react'
@@ -10,7 +10,7 @@ const FeedBack = () => {
     const { feedback, setfeedback } = useContext(AppContext);
     const [data, setData] = useState([]);
     const [users, setusers] = useState([]);
-
+    const [replay, setReplay] = useState(1);
     //Lấy data người dùng
     const getUser = async () => {
         try {
@@ -19,7 +19,7 @@ const FeedBack = () => {
             if (result !== null) {
                 setusers(result);
                 setfeedback(result.feedbacks);
-                setData(feedback);
+                setData(result.feedbacks);
             }
             else {
                 console.log("lỗi kết nối")
@@ -28,10 +28,10 @@ const FeedBack = () => {
             console.log(error);
         }
     }
-    
+
     const Remove = (value) => {
         let dataFeedback = feedback;
-        dataFeedback = dataFeedback.filter((item) => item.id !== value.id && {...item} );
+        dataFeedback = dataFeedback.filter((item) => item.id !== value.id && { ...item });
         const updatefeedbacks = {
             ...users,
             feedbacks: dataFeedback
@@ -39,21 +39,23 @@ const FeedBack = () => {
         const putFeedback = async () => {
             try {
                 const result = await AxiosInstance().put('/users/1/', updatefeedbacks);
+                setReplay(replay+1);
             } catch (error) {
                 console.log(error);
-            }
+            } 
         }
         putFeedback();
     };
 
     useEffect(() => {
         getUser()
-    }, [feedback])
-    
+    }, [])
     useEffect(() => {
         getUser()
-    }, [])
+    }, [replay])
     
+
+
     const Render_Feedback = (item) => {
         return (
             <View style={styles.Item}>

@@ -81,9 +81,15 @@ const Cart = ({ route }) => {
   const ordersucceed = async () => {
     try {
       let datahistories = users.histories;
-      console.log(datahistories)
+      const date = new Date();
 
-      datahistories = datahistories.concat([...list]);
+      const newlist = list.map(function(el) {
+        el.statusFeedback = 0;
+        el.date_time = date.toString().substring(4, 15);
+        return el;
+      }
+      )
+      datahistories = datahistories.concat([...newlist]);
       ToastAndroid.show('Đặt hàng thành công', ToastAndroid.LONG);
 
       setusers({ ...users, histories: datahistories });
