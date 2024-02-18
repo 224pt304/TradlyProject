@@ -51,8 +51,8 @@ const FeedBack = ({ route }) => {
         const date = new Date();
         const feedback = {
             "id": generateRandomId('id', 6),
-            "name": product.name,
-            "img": product.img,
+            "name": product.nameProduct,
+            "img": product.image[0].img,
             "evaluate": index,
             "date_time": date.toString().substring(4, 15)
         }
@@ -79,7 +79,7 @@ const FeedBack = ({ route }) => {
             }
         }
         postFeedback();
-        Alert.alert("Your feedback about " + product.name + " was send. Thanks !");
+        Alert.alert("Your feedback about " + product.nameProduct + " was send. Thanks !");
         setTimeout(() => {
             navigation.goBack();
         }, 1500);
@@ -95,8 +95,8 @@ const FeedBack = ({ route }) => {
             <View style={{ width: '100%', height: '100%' }}>
                 <View style={{ width: '100%', height: '15%', backgroundColor: '#33907C' }}></View>
                 <View style={{ width: '100%', height: '100%', position: 'absolute', alignItems: 'center', flexDirection: 'column' }}>
-                    <Image style={{ borderWidth: 4, borderColor: 'white', width: 160, height: 160, borderRadius: 20, marginTop: '5%' }} source={{ uri: product.img }} />
-                    <Text style={styles.Name}>{product.name}</Text>
+                    <Image style={{ borderWidth: 4, borderColor: 'white', width: 160, height: 160, borderRadius: 20, marginTop: '5%' }} source={{ uri: product.image[0].img }} />
+                    <Text style={styles.Name}>{product.nameProduct}</Text>
                     <View style={{ height: 40 }}>
                         <FlatList
                             horizontal={true}

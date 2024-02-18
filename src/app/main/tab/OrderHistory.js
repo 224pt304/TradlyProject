@@ -1,5 +1,5 @@
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import TitleBar from '../stack/TitleBar'
 import { AppContext } from '../../../AppContext'
@@ -8,61 +8,119 @@ import AxiosInstance from '../../../helper/AxiosInstance'
 const OrderHistory = () => {
     const navigation = useNavigation();
     const { history, sethistory } = useContext(AppContext);
-
+    const [data, setdata] = useState([]);
     //Hàm lấy dữ liệu lịch sử mua hàng của người dùng
     const gethistory = async () => {
         try {
             const result = await AxiosInstance().get('/users/1');
             if (result != '') {
-                if(result.histories.length == 0) {
+                if (result.histories.length == 0) {
                     console.log("mang rong");
-                }else {
+                } else {
                     sethistory(result.histories);
-                    // console.log(history)
+                    const filteredData = result.histories.reduce((result, current) => {
+                        const existingOrder = result.find((item) => item.date_time === current.date_time);
+                        if (existingOrder) {
+                            existingOrder.items.push({
+                                id: current.id,
+                                idproduct: current.idproduct,
+                                nameProduct: current.nameProduct,
+                                price: current.price,
+                                image: current.image,
+                                quantity: current.quantity,
+                                evaluate: current.evaluate,
+                                sale: current.sale,
+                                describe: current.describe,
+                                condition: current.condition,
+                                pricetype: current.pricetype,
+                                category: current.category,
+                                location: current.location,
+                                count: current.count,
+                                statusFeedback: current.statusFeedback,
+                            });
+                        } else {
+                            result.push({
+                                date_time: current.date_time,
+                                items: [
+                                    {
+                                        id: current.id,
+                                        idproduct: current.idproduct,
+                                        nameProduct: current.nameProduct,
+                                        price: current.price,
+                                        image: current.image,
+                                        quantity: current.quantity,
+                                        evaluate: current.evaluate,
+                                        sale: current.sale,
+                                        describe: current.describe,
+                                        condition: current.condition,
+                                        pricetype: current.pricetype,
+                                        category: current.category,
+                                        location: current.location,
+                                        count: current.count,
+                                        statusFeedback: current.statusFeedback,
+                                    },
+                                ],
+                            });
+                        }
+                        return result;
+                    }, []);
+                    setdata(filteredData);
                 }
-            } else{
+            } else {
                 console.log("rong du lieu");
             }
-            
+
         } catch (error) {
             console.log(error)
         }
     }
 
-    useEffect(() => {
-        gethistory();
-    })
-    
+
+
+    useFocusEffect(
+        useCallback(() => {
+            gethistory();
+        }, [])
+    )
+
     const render_History = ({ item }) => {
         return (
-            <View style={styles.Item}>
-                <View style={styles.Box_item_content}>
-                    <Image style={styles.Image_item} source={{ uri: item.img }} />
-                    <View style={styles.Box_item_infomation}>
-                        <Text style={styles.Name}>{item.nameProduct}</Text>
-                        {item.statusSale == 1 ?
-                            <View style={styles.Box_item_costs}>
-                                <Text style={styles.Costs}>${item.price}</Text>
-                                <Text style={styles.Text_item_sale}>50%</Text>
-                                <Text>Off</Text>
-                            </View>
-                            :
-                            <Text style={styles.Costs}>${item.price}</Text>
-                        }
+            <View style={{}}>
+                <Text style={styles.Text_main_datetime}>{item.date_time}</Text>
+                {
+                    item.items.map((interitem) => (
+                        <View key={interitem.id} style={styles.Item}>
+                            <View style={styles.Box_item_content}>
+                                <Image style={styles.Image_item} source={{ uri: interitem.image[0].img }} />
+                                <View style={styles.Box_item_infomation}>
+                                    <Text style={styles.Name}>{interitem.nameProduct}</Text>
+                                    {item.sale ?
+                                        <View style={styles.Box_item_costs}>
+                                            <Text style={styles.Costs}>${interitem.sale}</Text>
+                                            <Text style={styles.Text_item_sale}>50%</Text>
+                                            <Text>Off</Text>
+                                        </View>
+                                        :
+                                        <Text style={styles.Costs}>${interitem.price}</Text>
+                                    }
 
-                    </View>
-                </View>
-                <View style={styles.Box_item_button}>
-                    {item.statusFeedback == 1 ?
-                        < TouchableOpacity style={styles.Button_item_done}>
-                            <Text style={styles.Text_button_done}>Done</Text>
-                        </TouchableOpacity>
-                        :
-                        < TouchableOpacity style={styles.Button_item_feedback} onPress={() => navigation.navigate('Create_Feedback', { product: item })} >
-                            <Text style={styles.Text_button_feedback}>Feedback</Text>
-                        </TouchableOpacity>
-                    }
-                </View>
+                                </View>
+                            </View>
+                            <View style={styles.Box_item_button}>
+                                {interitem.statusFeedback == 1 ?
+                                    < TouchableOpacity style={styles.Button_item_done}>
+                                        <Text style={styles.Text_button_done}>Done</Text>
+                                    </TouchableOpacity>
+                                    :
+                                    < TouchableOpacity style={styles.Button_item_feedback} onPress={() => navigation.navigate('Create_Feedback', { product: interitem })} >
+                                        <Text style={styles.Text_button_feedback}>Feedback</Text>
+                                    </TouchableOpacity>
+                                }
+                            </View>
+                        </View>
+                    ))
+                }
+
             </View>
         )
     }
@@ -71,9 +129,8 @@ const OrderHistory = () => {
             <TitleBar title={"Order History"} />
             <View style={styles.Main}>
                 <Text style={styles.Transaction}>Transactions </Text>
-                <Text style={styles.Text_main_datetime}>Januari 2024</Text>
             </View>
-            <FlatList data={history}
+            <FlatList data={data}
                 renderItem={({ item }) => render_History({ item })}
                 ListEmptyComponent={() => (
                     <View style={styles.Flatlist_main_emty}>
@@ -99,7 +156,8 @@ const styles = StyleSheet.create({
         color: '#33907C',
         fontWeight: '900',
         letterSpacing: 1,
-        marginLeft: 10
+        paddingLeft: 10,
+        marginTop: 5
     },
     Text_button_done: {
         color: 'white'
