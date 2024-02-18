@@ -38,7 +38,7 @@ const Home = () => {
 
   const renderItemCatalog = (({ item }) => {
     return (
-      <TouchableOpacity key={item.id}>
+      <TouchableOpacity key={item.id} onPress={()=> navigation.navigate("Browser",{text: item.name})}>
         <View style={styles.containerrenderCata}>
           <Image style={styles.imgCata} source={{ uri: item.img }} />
           <Text style={styles.textCata}>{item.name}</Text>
@@ -52,7 +52,7 @@ const Home = () => {
     return (
       <View style={styles.containerrender}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('ProductDetail', { product: item })}>
+          onPress={() => navigation.navigate('ProductDetail', { product: item },{ replace: true })}>
           <Image
             style={styles.img}
             source={{ uri: item.image[0].img }} />
