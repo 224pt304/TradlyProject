@@ -1,16 +1,17 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native'
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Swiper from 'react-native-swiper';
 import TitleBar from './TitleBar';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AxiosInstance from '../../../helper/AxiosInstance';
 import { AppContext } from '../../../AppContext';
+import Favorite from '../tab/Favorite';
 
 const ProductDetail = ({ route }) => {
     const navigation = useNavigation();
     const {user, setuser} = useContext(AppContext);
     const id = user.id;
-    const { product } = route.params;
+    const { product,where } = route.params;
 
     const images = product.image;
     const nameProduct = product.nameProduct;
@@ -52,16 +53,20 @@ const ProductDetail = ({ route }) => {
     }
 
     const addfavorite = async () => {
-        const data = datas();
+        let data
+        if(where === "Favorite"){
+            data = product;
+        }else{
+            data = datas();
+        }
         try {
             let datafavorite = user.favorites;
-            console.log(datafavorite);
 
-            if (datafavorite.length == 0 || !datafavorite.some(pr => pr.idproduct === product.id)) {
+            if (datafavorite.length == 0 || !datafavorite.some(pr => pr.idproduct === data.idproduct)) {
                 datafavorite = [...datafavorite, { ...data }];
                 Alert.alert("Đã thêm yêu thích");
             } else {
-                datafavorite = datafavorite.filter(pr => pr.idproduct !== product.id);
+                datafavorite = datafavorite.filter(pr => pr.idproduct !== data.idproduct);
                 Alert.alert("Đã gỡ yêu thích");
             }
 
@@ -70,6 +75,7 @@ const ProductDetail = ({ route }) => {
             const result = await AxiosInstance()
                 .put(`/users/${id}`, { ...user, favorites: datafavorite });
 
+            console.log(datafavorite);
         } catch (error) {
             console.log(error)
         }

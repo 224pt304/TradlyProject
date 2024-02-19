@@ -52,7 +52,7 @@ const Home = () => {
     return (
       <View style={styles.containerrender}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('ProductDetail', { product: item },{ replace: true })}>
+          onPress={() => navigation.navigate('ProductDetail', { product: item,where: 'Home' })}>
           <Image
             style={styles.img}
             source={{ uri: item.image[0].img }} />

@@ -34,7 +34,7 @@ const TitleBar = (props) => {
     const getAllproduct = async () => {
         try {
             result = await AxiosInstance()
-                .get(`/products`, null);
+                .get(`products`, null);
             if (result !== null) {
                 setBrowser(result);
             } else {
@@ -49,9 +49,10 @@ const TitleBar = (props) => {
         console.log("on find product")
         try {
             result = await AxiosInstance()
-                .get(`/products?nameProduct=${data}`, null);
+                .get(`products?nameProduct=${data}`, null);
             if (result.length !== 0) {
                 setBrowser(result);
+                console.log(result)
             } else {
                 getBrowsercatalog(data);
             }
@@ -65,7 +66,7 @@ const TitleBar = (props) => {
         console.log("on find catalog")
         try {
             result = await AxiosInstance()
-                .get(`/products?category=${data}`, null);
+                .get(`products?category=${data}`, null);
             if (result !== null) {
                 setBrowser(result);
             } else {
@@ -79,13 +80,14 @@ const TitleBar = (props) => {
 
     const submit = () => {
         if (title !== 'Browser') {
-            navigation.replace('Browser', { text: search });
+            navigation.navigate('Browser', { text: search });
         }
-
-        if (search.trim !== null) {
-            getBrowserproduct(search);
-        } else {
-            getAllproduct();
+        else{
+            if (search.trim !== null) {
+                getBrowserproduct(search);
+            } else {
+                getAllproduct();
+            }
         }
     }
 
