@@ -1,37 +1,19 @@
 import { Alert, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import TitleBar from './TitleBar'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import AxiosInstance from '../../../helper/AxiosInstance'
+import { AppContext } from '../../../AppContext'
 
 const EditProfile = ({ route }) => {
     const { userId } = route.params;
+    const {user, setuser} = useContext(AppContext);
+    const id = user.id;
     const [username, setusername] = useState(userId.username);
     const [email, setemail] = useState(userId.email);
     const [phone, setphone] = useState(userId.phone);
     const [password, setpassword] = useState(userId.password);
     const navigation = useNavigation();
-
-    // const changeInfo = async () => {
-    //     try {
-    //         const updatedataUsers = {
-    //             ...userId,
-    //             username: username,
-    //             email: email,
-    //             phone: phone,
-    //             password: password,
-    //         }
-    //         const result = await AxiosInstance().put('/users/1/', updatedataUsers)
-    //         if (result !== null) {
-    //             Alert.alert("Thay đổi thông tin taì khoảng thành công");
-    //                 navigation.goBack();
-    //         } else {
-
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
 
     const changeInfo = async () => {
         try {
@@ -45,8 +27,8 @@ const EditProfile = ({ route }) => {
                 return;
             }
             // Kiểm tra định dạng email
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (emailPattern.test(email)) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email.match(emailRegex)) {
                 ToastAndroid.show("Please enter a valid email address", ToastAndroid.SHORT);
                 return;
             }
@@ -67,8 +49,9 @@ const EditProfile = ({ route }) => {
                 phone: phone,
                 password: password,
             }
-            const result = await AxiosInstance().put('/users/1/', updatedataUsers)
+            const result = await AxiosInstance().put('/users/'+id+'/', updatedataUsers)
             if (result !== null) {
+                setuser(result)
                 Alert.alert("Thay đổi thông tin tài khoản thành công");
                 navigation.goBack();
             } else {

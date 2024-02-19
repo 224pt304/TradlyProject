@@ -7,7 +7,7 @@ import AxiosInstance from '../../../helper/AxiosInstance'
 
 const OrderHistory = () => {
     const navigation = useNavigation();
-    const { history, sethistory,user, setuser } = useContext(AppContext);
+    const { history, sethistory, user, setuser } = useContext(AppContext);
     const id = user.id
     const [data, setdata] = useState([]);
     //Hàm lấy dữ liệu lịch sử mua hàng của người dùng

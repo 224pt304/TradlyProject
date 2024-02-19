@@ -79,9 +79,9 @@ const Cart = ({ route }) => {
       datahistories = datahistories.concat([...newlist]);
       ToastAndroid.show('Đặt hàng thành công', ToastAndroid.LONG);
 
-      setuser({ ...user, histories: datahistories });
+      setuser({ ...user, carts:[], histories: datahistories });
       const result = await AxiosInstance()
-        .put(`/users/${id}`, { ...user, histories: datahistories });
+        .put(`/users/${id}`, { ...user , carts:[], histories: datahistories });
 
     } catch (error) {
       console.log(error)
