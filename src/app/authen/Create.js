@@ -87,7 +87,7 @@ const Create = () => {
             console.log(result);
             if (result.length != 0) {
                 console.log(result);
-                setuser(result[0])
+                setuser(result)
                 setisLogin(true);
             }
             else {
