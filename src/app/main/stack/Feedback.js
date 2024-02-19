@@ -7,7 +7,8 @@ import { useFocusEffect } from '@react-navigation/native'
 import AxiosInstance from '../../../helper/AxiosInstance'
 
 const FeedBack = () => {
-    const { feedback, setfeedback } = useContext(AppContext);
+    const { feedback, setfeedback, user } = useContext(AppContext);
+    const id = user.id;
     const [data, setData] = useState([]);
     const [users, setusers] = useState([]);
     const [replay, setReplay] = useState(1);
@@ -15,7 +16,7 @@ const FeedBack = () => {
     const getUser = async () => {
         try {
             const result = await AxiosInstance()
-                .get(`/users/1`, null);
+                .get(`/users/`+id, null);
             if (result !== null) {
                 setusers(result);
                 setfeedback(result.feedbacks);
@@ -38,7 +39,7 @@ const FeedBack = () => {
         }
         const putFeedback = async () => {
             try {
-                const result = await AxiosInstance().put('/users/1/', updatefeedbacks);
+                const result = await AxiosInstance().put('/users/'+id+'/', updatefeedbacks);
                 setReplay(replay+1);
             } catch (error) {
                 console.log(error);
