@@ -7,7 +7,7 @@ const Login = () => {
   const navigation = useNavigation()
 
   const { user, setuser, setisLogin } = useContext(AppContext);
-
+  
   const [Email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -45,7 +45,7 @@ const Login = () => {
     if (passwordvalid && emailvalid) {
       onPressLogin();
     }
-  }, [passwordvalid, emailvalid, Email, password]);
+  }, [passwordvalid, emailvalid, Email,password]);
 
   const [checkPass, setCheckPass] = useState(true);
   const toogleCheckPass = () => {
@@ -67,7 +67,7 @@ const Login = () => {
         .get(`/users?email=${Email}&&password=${password}`, null);
 
 
-      if (result.length != 0) {
+      if (result.length!= 0) {
         setisLogin(true);
         console.log(result);
       } else {
@@ -110,18 +110,14 @@ const Login = () => {
       <TouchableOpacity style={myStyle.ButtonL} onPress={() => validate()}>
         <Text style={{ color: '#13B58C', fontSize: 24, fontWeight: 'bold' }}>Login</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation.navigate('Send_Otp')}>
-        <Text style={myStyle.txtFYP}>Forgot your password ?</Text>
-      </TouchableOpacity>
-
+      <Text style={myStyle.txtFYP}>Forgot your password ?</Text>
       <TouchableOpacity onPress={() => navigation.navigate('Create')}>
-        <View style={myStyle.Reset}>
-          <Text style={myStyle.Reset}>Don't have an account? </Text>
-          <Text style={myStyle.Reset1}>Sign up</Text>
-        </View>
+      <View style={myStyle.Reset}>
+        <Text style={myStyle.Reset}>Don't have an account? </Text>
+        <Text style={myStyle.Reset1}>Sign up</Text>
+      </View>
       </TouchableOpacity>
-
+      
 
     </View>
 

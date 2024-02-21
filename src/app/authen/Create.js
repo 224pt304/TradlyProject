@@ -7,7 +7,6 @@ import AxiosInstance from '../../helper/AxiosInstance';
 const Create = () => {
     const navigation = useNavigation()
     const { setisLogin, setuser } = useContext(AppContext);
-    const [eye, seteye] = useState(true);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -114,14 +113,11 @@ const Create = () => {
     return (
         <View>
             <View style={myStyle.dau}>
-                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                    <Image
-                        resizeMode='contain'
-                        source={require('../../../assets/images/Back23.png')}
-                        style={myStyle.hinh}
-                    />
-                </TouchableOpacity>
-
+                <Image
+                    resizeMode='contain'
+                    source={require('../../../assets/images/Back23.png')}
+                    style={myStyle.hinh}
+                />
                 <Text style={myStyle.txtWelcome} >Welcom to Lungo!!</Text>
                 <Text style={myStyle.CLogin}>Register to Continue</Text>
                 <TextInput style={myStyle.TextInput1} placeholder='Full Name' placeholderTextColor='#e0e0eb'
@@ -138,25 +134,12 @@ const Create = () => {
                 </View>
                 <View >
                     <TextInput style={myStyle.TextInput2} placeholder='Password' placeholderTextColor='#e0e0eb'
-                        type="password" value={password} onChangeText={text => setPassword(text)}
-                        secureTextEntry={eye}>
+                        type="password" value={password} onChangeText={text => setPassword(text)}>
                     </TextInput>
-                    <View style={myStyle.vieweye}>
-                        <TouchableOpacity onPress={() => seteye(!eye)}>
-                            {
-                                eye ?
-                                    <Image
-                                        style={myStyle.iceye}
-                                        source={require('../../../assets/images/closeeye.png')}
-                                    />
-                                    :
-                                    <Image
-                                        style={myStyle.iceye}
-                                        source={require('../../../assets/images/eye.png')}
-                                    />
-                            }
-                        </TouchableOpacity>
-                    </View>
+                    <Image
+                        source={require('../../../assets/images/eye.png')}
+                        style={myStyle.eyeContainer}
+                    />
                 </View>
 
                 <View style={{ width: '90%' }}>
@@ -166,25 +149,12 @@ const Create = () => {
 
                 <View >
                     <TextInput style={myStyle.TextInput2} placeholder='Re-enter Password' placeholderTextColor='#e0e0eb'
-                        type="confirmpassword" value={confirmpassword} onChangeText={text => setconfirmpassword(text)}
-                        secureTextEntry={eye}>
+                        type="confirmpassword" value={confirmpassword} onChangeText={text => setconfirmpassword(text)}>
                     </TextInput>
-                    <View style={myStyle.vieweye}>
-                        <TouchableOpacity onPress={() => seteye(!eye)}>
-                            {
-                                eye ?
-                                    <Image
-                                        style={myStyle.iceye}
-                                        source={require('../../../assets/images/closeeye.png')}
-                                    />
-                                    :
-                                    <Image
-                                        style={myStyle.iceye}
-                                        source={require('../../../assets/images/eye.png')}
-                                    />
-                            }
-                        </TouchableOpacity>
-                    </View>
+                    <Image
+                        source={require('../../../assets/images/eye.png')}
+                        style={myStyle.eyeContainer}
+                    />
                 </View>
 
                 <View style={{ width: '90%' }}>
@@ -193,13 +163,10 @@ const Create = () => {
                 </View>
 
                 <TouchableOpacity style={myStyle.ButtonL} onPress={() => validate()}><Text style={myStyle.txtCreate}>Create</Text></TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                    <View style={myStyle.Register}>
-                        <Text style={myStyle.Register}>Have an account ? </Text>
-                        <Text style={myStyle.Register1}>Sign in</Text>
-                    </View>
-                </TouchableOpacity>
-
+                <View style={myStyle.Register}>
+                    <Text style={myStyle.Register}>Have an account ? </Text>
+                    <Text style={myStyle.Register1}>Sign in</Text>
+                </View>
             </View>
         </View>
     )
@@ -208,19 +175,6 @@ const Create = () => {
 export default Create
 
 const myStyle = StyleSheet.create({
-    vieweye: {
-        position: 'absolute',
-        top: 15,
-        right: 5
-    },
-    iceye: {
-
-        right: 25,
-        top: 22,
-    },
-    tong: {
-        padding: 20
-    },
     txtCreate: {
         color: '#13B58C',
         fontSize: 24,
@@ -298,7 +252,6 @@ const myStyle = StyleSheet.create({
     },
 
     dau: {
-        padding: 20,
         width: '100%',
         height: '100%',
         backgroundColor: '#33907C'
