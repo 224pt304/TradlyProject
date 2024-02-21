@@ -5,6 +5,7 @@ import Swiper from 'react-native-swiper';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AxiosInstance from '../../../helper/AxiosInstance';
 import { AppContext } from '../../../AppContext';
+import SlideShow from '../../authen/SlideShow';
 const Home = () => {
   const [image, setimage] = useState(JSON.parse(imagejs));
   const [catalog, setcatalog] = useState(JSON.parse(catalogjs));
@@ -38,7 +39,7 @@ const Home = () => {
 
   const renderItemCatalog = (({ item }) => {
     return (
-      <TouchableOpacity key={item.id}>
+      <TouchableOpacity key={item.id} onPress={()=> navigation.navigate("Browser",{text: item.name})}>
         <View style={styles.containerrenderCata}>
           <Image style={styles.imgCata} source={{ uri: item.img }} />
           <Text style={styles.textCata}>{item.name}</Text>
@@ -52,7 +53,7 @@ const Home = () => {
     return (
       <View style={styles.containerrender}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('ProductDetail', { product: item })}>
+          onPress={() => navigation.navigate('ProductDetail', { product: item,where: 'Home' })}>
           <Image
             style={styles.img}
             source={{ uri: item.image[0].img }} />
@@ -81,22 +82,7 @@ const Home = () => {
       <ScrollView
         showsVerticalScrollIndicator={false}>
         <View style={styles.viewSwiper}>
-          <Swiper
-            showsPagination={true}
-            autoplay
-            autoplayTimeout={3}
-            style={{ width: '100%', height: 165 }}>
-            {
-              image.map((imag, index) => (
-                <View key={index}>
-                  <Image
-                    style={styles.image}
-                    resizeMode='contain'
-                    source={{ uri: imag.img }} />
-                </View>
-              ))
-            }
-          </Swiper>
+          <SlideShow data={image}/>
         </View>
 
         <View>
@@ -218,8 +204,7 @@ const styles = StyleSheet.create({
 export default Home
 
 
-var imagejs = '[{ "id": 1, "img": "http://dummyimage.com/219x100.png/ff4444/ffffff" }, { "id": 2, "img": "http://dummyimage.com/238x100.png/5fa2dd/ffffff" }, { "id": 3, "img": "http://dummyimage.com/217x100.png/5fa2dd/ffffff" }, { "id": 4, "img": "http://dummyimage.com/167x100.png/ff4444/ffffff" }, { "id": 5, "img": "http://dummyimage.com/245x100.png/cc0000/ffffff" }, { "id": 6, "img": "http://dummyimage.com/177x100.png/cc0000/ffffff" }, { "id": 7, "img": "http://dummyimage.com/134x100.png/5fa2dd/ffffff" }, { "id": 8, "img": "http://dummyimage.com/235x100.png/ff4444/ffffff" }, { "id": 9, "img": "http://dummyimage.com/144x100.png/dddddd/000000" }, { "id": 10, "img": "http://dummyimage.com/250x100.png/5fa2dd/ffffff" }]';
+var imagejs = '["https://file.hstatic.net/200000722513/file/mua_pc_tang_ram_998e059c1c4545768a059696a099d724.jpg","https://file.hstatic.net/200000722513/file/pc_tet_-_slider_45be4c3cc88d4da2a6eb06459ba271c2.jpg","https://file.hstatic.net/200000722513/file/gearvn-laptop-gaming-slider_4419ba0801564e6e8a7540c8dbdc8c41.jpg","https://file.hstatic.net/200000722513/file/banner_gearvn_-_slider_a8894c9824534ce0811280a8c684e861.jpg"]';
 
 
-var catalogjs = '[{ "id": 1, "name": "Dulcea", "img": "http://dummyimage.com/249x100.png/dddddd/000000" }, { "id": 2, "name": "Ransell", "img": "http://dummyimage.com/216x100.png/dddddd/000000" }, { "id": 3, "name": "April", "img": "http://dummyimage.com/234x100.png/dddddd/000000" }, { "id": 4, "name": "Bear", "img": "http://dummyimage.com/213x100.png/cc0000/ffffff" }, { "id": 5, "name": "Harwilll", "img": "http://dummyimage.com/248x100.png/5fa2dd/ffffff" }, { "id": 6, "name": "Ali", "img": "http://dummyimage.com/147x100.png/dddddd/000000" }, { "id": 7, "name": "Fania", "img": "http://dummyimage.com/161x100.png/cc0000/ffffff" }, { "id": 8, "name": "Velma", "img": "http://dummyimage.com/152x100.png/dddddd/000000" }, { "id": 9, "name": "Reilly", "img": "http://dummyimage.com/195x100.png/5fa2dd/ffffff" }, { "id": 10, "name": "Terry", "img": "http://dummyimage.com/227x100.png/5fa2dd/ffffff" }]';
-var productjs = '[{ "id": 1, "name": "Bernadene", "price": 69, "sale": 25, "img": "http://dummyimage.com/106x100.png/dddddd/000000" }, { "id": 2, "name": "Tan", "price": 685, "sale": 44, "img": "http://dummyimage.com/124x100.png/5fa2dd/ffffff" }, { "id": 3, "name": "Gayleen", "price": 591, "sale": 96, "img": "http://dummyimage.com/213x100.png/ff4444/ffffff" }, { "id": 4, "name": "Rosabel", "price": 595, "sale": 35, "img": "http://dummyimage.com/213x100.png/ff4444/ffffff" }, { "id": 5, "name": "Malcolm", "price": 461, "sale": 25, "img": "http://dummyimage.com/241x100.png/cc0000/ffffff" }, { "id": 6, "name": "Micaela", "price": 472, "sale": 85, "img": "http://dummyimage.com/246x100.png/cc0000/ffffff" }, { "id": 7, "name": "Alberta", "price": 666, "sale": 38, "img": "http://dummyimage.com/138x100.png/dddddd/000000" }, { "id": 8, "name": "Tanitansy", "price": 580, "sale": 74, "img": "http://dummyimage.com/199x100.png/ff4444/ffffff" }, { "id": 9, "name": "Constantine", "price": 319, "sale": 5, "img": "http://dummyimage.com/240x100.png/ff4444/ffffff" }, { "id": 10, "name": "Koressa", "price": 963, "sale": 9, "img": "http://dummyimage.com/224x100.png/ff4444/ffffff" }]';
+var catalogjs = '[{ "id": 1, "name": "CPU", "img": "https://product.hstatic.net/200000722513/product/n22360_png_36691178908b435494f526d804c4b249_grande.png" }, { "id": 2, "name": "Main Intel", "img": "https://product.hstatic.net/200000722513/product/5_8fcec763d4204707990d69ec0d8d3f4c_3bedf3f6dd8046769ea2bd41e86b2de9.jpg" }, { "id": 3, "name": "Main AMD", "img": "https://product.hstatic.net/200000722513/product/gearvn-bo-mach-chu-gigabyte-z790-aorus-elite-x-wifi7-ddr5-1_d92aafa53a774347bb6c187e512fc6c7.png" }, { "id": 4, "name": "VGA", "img": "https://product.hstatic.net/200000722513/product/h732__21__c5f8bf827e534df89012c1fef3b7b9ee.png" }, { "id": 5, "name": "CASE", "img": "https://product.hstatic.net/200000722513/product/z-tower_gallery_01_80336ac900f34cd8b0fb7aa1ce5f1a64_fb389a69bbfb4684a6fc3cde9e0fbd85.jpg" }, { "id": 6, "name": "Nguồn", "img": "https://product.hstatic.net/200000722513/product/h732_d28f32102b2c4fb6ab2a5bfa31f95b41_30899e2f85eb4ecca967eee77a147ccc.png" }, { "id": 7, "name": "Phụ Kiện PC", "img": "https://product.hstatic.net/200000722513/product/rog-xh01-herculx-graphics-card-holder_451e28b7337444b7944471355dda9bb3_cd8022c35ea14f149ede46d4d973214b.jpg" }, { "id": 8, "name": "SSD", "img": "https://product.hstatic.net/200000722513/product/om-products-ssd-samsung-860-qvo-4tb_3_d420e6ef97f046398599c649863a8e19_51fb14d9ddae4f2fae0e1727dd8cee98.jpg" }, { "id": 9, "name": "Tản Nhiệt", "img": "https://product.hstatic.net/200000722513/product/icue_link_qx120_rgb_white_triple_artboard01_aa_b94fb52b889d4542a10a563bdefa30b1.png" }, { "id": 10, "name": "Ram", "img": "https://product.hstatic.net/200000722513/product/gearvn-ram-t-group-t-force-delta-1x16gb-3600-rgb-white-2_f2b442f7a66148538ce8a09aff32f201.png" }]';

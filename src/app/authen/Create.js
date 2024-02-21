@@ -7,6 +7,7 @@ import AxiosInstance from '../../helper/AxiosInstance';
 const Create = () => {
     const navigation = useNavigation()
     const { setisLogin, setuser } = useContext(AppContext);
+    const [onclcick, setonclcick] = useState(false);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -64,7 +65,10 @@ const Create = () => {
             setconfirmpasswordError('');
             setConfirmpasswordvalid(true);
         }
+
+        setonclcick(!onclcick);
     };
+
     const onPressRegister = async () => {
         try {
             const body = {
@@ -83,6 +87,7 @@ const Create = () => {
             console.log(result);
             if (result.length != 0) {
                 console.log(result);
+                setuser(result)
                 setisLogin(true);
             }
             else {
@@ -106,7 +111,7 @@ const Create = () => {
         } else {
             console.log('loi');
         }
-    }, [passwordValid, emailValid]);
+    }, [onclcick]);
 
 
 

@@ -1,26 +1,43 @@
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { AppContext } from '../../../AppContext';
 import AxiosInstance from '../../../helper/AxiosInstance';
 const TitleBar = (props) => {
     const navigation = useNavigation();
-    const {Browser, setBrowser} = useContext(AppContext);
-    const [databrowser, setdatabrowser] = useState(Browser);
+    const route = useRoute();
+    const { Browser, setBrowser } = useContext(AppContext);
+    const [databrowser, setdatabrowser] = useState([]);
     const [search, setsearch] = useState("");
     const { title } = props;
 
-    useEffect(() =>{
+    useFocusEffect(
+        useCallback(() => {
+            try {
+                const { text } = route.params;
+                if (text !== undefined) {
+                    setsearch(text);
+                    getBrowserproduct(text);
+                }
+            } catch (error) {
+                
+            }
+            
+        }, [route.params])
+    );
+
+
+    useEffect(() => {
         setdatabrowser(Browser);
-    },[Browser]);
+    }, [Browser]);
 
-    const getAllproduct =async ()=>{
+    const getAllproduct = async () => {
         try {
             result = await AxiosInstance()
-                    .get(`/products`, null);
-            if(result !== null){
+                .get(`products`, null);
+            if (result !== null) {
                 setBrowser(result);
-            }else{
+            } else {
                 console.log("lỗi kết nối")
             }
         } catch (error) {
@@ -28,13 +45,31 @@ const TitleBar = (props) => {
         }
     }
 
-    const getBrowserproduct = async () =>{
+    const getBrowserproduct = async (data) => {
+        console.log("on find product")
         try {
             result = await AxiosInstance()
-                    .get(`/products?nameProduct=${search}`, null);
-            if(result !== null){
+                .get(`products?nameProduct=${data}`, null);
+            if (result.length !== 0) {
                 setBrowser(result);
-            }else{
+                console.log(result)
+            } else {
+                getBrowsercatalog(data);
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    const getBrowsercatalog = async (data) => {
+        console.log("on find catalog")
+        try {
+            result = await AxiosInstance()
+                .get(`products?category=${data}`, null);
+            if (result !== null) {
+                setBrowser(result);
+            } else {
                 console.log("lỗi kết nối")
             }
         } catch (error) {
@@ -43,26 +78,24 @@ const TitleBar = (props) => {
 
     }
 
-    const submit = () =>{
-
-        if(title === 'Browser'){
-
-            if(search.trim !== null){
-                getBrowserproduct();
-            }else{
+    const submit = () => {
+        if (title !== 'Browser') {
+            navigation.navigate('Browser', { text: search });
+        }
+        else{
+            if (search.trim !== null) {
+                getBrowserproduct(search);
+            } else {
                 getAllproduct();
             }
-
-        }else{
-            
         }
     }
 
     return (
-        <View style={[styles.container,{marginBottom: (title === 'Home' || title === 'Browser') ? 100 : 0}]}>
-            <View style={styles.Header}>
+        <View style={[styles.container, { marginBottom: (title === 'Home' || title === 'Browser') ? 55 : 0 }]}>
+            <View style={[styles.Header,{padding: 20}]}>
                 <Text style={styles.Title}>{title}</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Cart',{listaddress:""})}>
+                <TouchableOpacity onPress={() => navigation.navigate('Cart', { listaddress: "" })}>
                     <Image style={{ width: 30, height: 30 }} source={{ uri: "https://i.imgur.com/vaNk6IZ.png" }} />
                 </TouchableOpacity>
             </View>
@@ -74,16 +107,7 @@ const TitleBar = (props) => {
                         onChangeText={(text) => setsearch(text)}
                         style={styles.textInput}
                         placeholder='Nhập tìm kiếm'
-                        onSubmitEditing={()=>submit()} />
-
-                    {title === 'Browser' &&
-                        <View style={styles.viewSort}>
-                            <TouchableOpacity style={styles.btnSort}>
-                                <Image style={styles.iconSort} source={require('../../../../assets/images/sort.png')} />
-                                <Text style={styles.textSort}>Sort by</Text>
-                            </TouchableOpacity>
-                        </View>
-                    }
+                        onSubmitEditing={() => submit()} />
                 </View>}
         </View>
     )
@@ -92,7 +116,7 @@ const TitleBar = (props) => {
 export default TitleBar
 
 const styles = StyleSheet.create({
-    viewSort:{
+    viewSort: {
         width: '100%',
         alignItems: 'flex-start',
     },
@@ -120,7 +144,8 @@ const styles = StyleSheet.create({
     },
     centerView: {
         justifyContent: 'center',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        paddingBottom: 20
     },
     textInput: {
         height: 50,
@@ -136,11 +161,10 @@ const styles = StyleSheet.create({
     },
     Header: {
         width: '100%',
-        height: '100%',
         backgroundColor: '#33907C',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 20,
+        paddingHorizontal: 20,
         alignItems: 'center'
     },
     Title: {

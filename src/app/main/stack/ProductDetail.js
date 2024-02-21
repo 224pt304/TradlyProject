@@ -1,13 +1,17 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Swiper from 'react-native-swiper';
 import TitleBar from './TitleBar';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AxiosInstance from '../../../helper/AxiosInstance';
+import { AppContext } from '../../../AppContext';
+import Favorite from '../tab/Favorite';
 
 const ProductDetail = ({ route }) => {
     const navigation = useNavigation();
-    const { product } = route.params;
+    const {user, setuser} = useContext(AppContext);
+    const id = user.id;
+    const { product,where } = route.params;
 
     const images = product.image;
     const nameProduct = product.nameProduct;
@@ -18,8 +22,6 @@ const ProductDetail = ({ route }) => {
     const priceType = product.pricetype;
     const category = product.category;
     const location = product.location;
-
-    const [users, setusers] = useState([]);
 
 
     function generateRandomId(prefix, length) {
@@ -51,58 +53,41 @@ const ProductDetail = ({ route }) => {
     }
 
     const addfavorite = async () => {
-        const data = datas();
+        let data
+        if(where === "Favorite"){
+            data = product;
+        }else{
+            data = datas();
+        }
         try {
-            let datafavorite = users.favorites;
-            console.log(datafavorite);
+            let datafavorite = user.favorites;
 
-            if (datafavorite.length == 0 || !datafavorite.some(pr => pr.idproduct === product.id)) {
+            if (datafavorite.length == 0 || !datafavorite.some(pr => pr.idproduct === data.idproduct)) {
                 datafavorite = [...datafavorite, { ...data }];
                 Alert.alert("Đã thêm yêu thích");
             } else {
-                datafavorite = datafavorite.filter(pr => pr.idproduct !== product.id);
+                datafavorite = datafavorite.filter(pr => pr.idproduct !== data.idproduct);
                 Alert.alert("Đã gỡ yêu thích");
             }
 
 
-            setusers({ ...users, favorites: datafavorite });
+            setuser({ ...user, favorites: datafavorite });
             const result = await AxiosInstance()
-                .put(`/users/1`, { ...users, favorites: datafavorite });
+                .put(`/users/${id}`, { ...user, favorites: datafavorite });
 
+            console.log(datafavorite);
         } catch (error) {
             console.log(error)
         }
 
     }
 
-    const getUser = async () => {
-        console.log('on get Favorites');
-        try {
-            const result = await AxiosInstance()
-                .get(`/users/1`, null);
-            if (result !== null) {
-                setusers(result);
-            }
-            else {
-                console.log("lỗi kết nối")
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    useFocusEffect(
-        useCallback(() => {
-            getUser();
-        }, [])
-    )
-
     const addtoCart = async () =>{
         let data = datas();
         data = {...data, count: 1}
 
         try {
-            let datacart = users.carts;
+            let datacart = user.carts;
             if (datacart === null || !datacart.some(pr => pr.idproduct === product.id)) {
                 datacart = [...datacart, { ...data }];
             } else {
@@ -114,12 +99,11 @@ const ProductDetail = ({ route }) => {
                 });
             }
             console.log(datacart);
-            await getUser();
             Alert.alert("Đã thêm giỏ hàng thành công");
 
-            setusers({ ...users, carts: datacart });
+            setuser({ ...user, carts: datacart });
             const result = await AxiosInstance()
-                .put(`/users/1`, { ...users, carts: datacart });
+                .put(`/users/1`, { ...user, carts: datacart });
 
         } catch (error) {
             console.log(error)

@@ -1,44 +1,31 @@
 import { Image, StyleSheet, Text, View, Pressable, FlatList, StatusBar, TouchableOpacity, Alert, Button,ToastAndroid } from 'react-native'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AxiosInstance from '../../../helper/AxiosInstance';
+import { AppContext } from '../../../AppContext';
 
 const Cart = ({ route }) => {
   const { listaddress } = route.params;
 
+  const {user, setuser} = useContext(AppContext);
+  const id = user.id;
+  
   const navigation = useNavigation();
 
-  const [users, setusers] = useState([])
-  const [list, setlistsp] = useState(users);
+  const [list, setlistsp] = useState(user.carts);
   const [countprice, setcountprice] = useState(0);
 
   useEffect(() => {
-    setcountprice(list.reduce((tong, data) => tong + data.price, 0));
+    setcountprice(list.reduce((tong, data) => tong + data.price*data.count, 0));
   }, [list]);
-
-  const getUser = async () => {
-    console.log('on get Carts');
-    try {
-      const result = await AxiosInstance()
-        .get(`/users/1`, null);
-      if (result !== null) {
-        setusers(result);
-        setlistsp(result.carts);
-        console.log('success');
-      }
-      else {
-        console.log("lỗi kết nối")
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   const updateCart = async (listdatacart) => {
     console.log('on update Carts');
     try {
+      setuser({ ...user, carts: listdatacart });
+
       const result = await AxiosInstance()
-        .put(`/users/1`, { ...users, carts: listdatacart });
+        .put(`/users/${id}`, { ...user, carts: listdatacart });
       console.log('success');
     } catch (error) {
       console.log(error);
@@ -47,7 +34,7 @@ const Cart = ({ route }) => {
 
   useFocusEffect(
     useCallback(() => {
-      getUser();
+      setlistsp(user.carts);
     }, [])
   )
 
@@ -80,7 +67,7 @@ const Cart = ({ route }) => {
 
   const ordersucceed = async () => {
     try {
-      let datahistories = users.histories;
+      let datahistories = user.histories;
       const date = new Date();
 
       const newlist = list.map(function(el) {
@@ -92,15 +79,13 @@ const Cart = ({ route }) => {
       datahistories = datahistories.concat([...newlist]);
       ToastAndroid.show('Đặt hàng thành công', ToastAndroid.LONG);
 
-      setusers({ ...users, histories: datahistories });
+      setuser({ ...user, carts:[], histories: datahistories });
       const result = await AxiosInstance()
-        .put(`/users/1`, { ...users, histories: datahistories });
+        .put(`/users/${id}`, { ...user , carts:[], histories: datahistories });
 
     } catch (error) {
       console.log(error)
     }
-
-
   }
 
 
@@ -157,7 +142,7 @@ const Cart = ({ route }) => {
         </Pressable>
 
         <Text style={myStyle.textCart}>My Cart</Text>
-        <Image style={myStyle.back} />
+        <View style={myStyle.back} />
       </View>
 
       {

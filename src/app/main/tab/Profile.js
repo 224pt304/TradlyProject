@@ -8,12 +8,13 @@ import { AppContext } from '../../../AppContext'
 
 const Profile = () => {
     const [users, setusers] = useState([]);
-    const {isLogin, setisLogin} = useContext(AppContext);
+    const {isLogin, setisLogin, user} = useContext(AppContext);
+    const id = user.id;
     //Lấy data người dùng
     const getUser = async () => {
         try {
             const result = await AxiosInstance()
-                .get(`/users/1`, null);
+                .get(`/users/`+id, null);
             if (result !== null) {
                 setusers(result);
             }
@@ -136,6 +137,7 @@ const styles = StyleSheet.create({
         flex: 2
     },
     Box_infomation: {
+        marginTop: -25,
         flex: 4,
         backgroundColor: '#33907C',
         flexDirection: 'row'

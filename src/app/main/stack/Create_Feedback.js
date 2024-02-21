@@ -8,6 +8,8 @@ import { useContext } from 'react'
 
 const FeedBack = ({ route }) => {
     const [index, setIndex] = useState(5);
+    const {user} = useContext(AppContext);
+    const id = user.id;
     const [users, setusers] = useState([]);
     const [data, setdata] = useState([
         { id: 1, value: 1 },
@@ -25,7 +27,7 @@ const FeedBack = ({ route }) => {
     const getUser = async () => {
         try {
             const result = await AxiosInstance()
-                .get(`/users/1`, null);
+                .get(`/users/`+id, null);
             if (result !== null) {
                 setusers(result);
             }
@@ -70,7 +72,7 @@ const FeedBack = ({ route }) => {
                     histories: dataHistory,
                     feedbacks: [...users.feedbacks, feedback]
                 };
-                const result = await AxiosInstance().put('users/1/', updatedUser);
+                const result = await AxiosInstance().put('users/'+id+'/', updatedUser);
                 if (result !== null) {
                     getUser();
                 }

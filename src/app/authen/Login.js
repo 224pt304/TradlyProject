@@ -7,6 +7,8 @@ const Login = () => {
   const navigation = useNavigation()
 
   const { user, setuser, setisLogin } = useContext(AppContext);
+
+  const [onclick, setonclick] = useState(false);
   
   const [Email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,13 +41,15 @@ const Login = () => {
       setpasswordError('');
       setpasswordvalid(true);
     }
+
+    setonclick(!onclick);
   };
 
   useEffect(() => {
     if (passwordvalid && emailvalid) {
       onPressLogin();
     }
-  }, [passwordvalid, emailvalid, Email,password]);
+  }, [onclick]);
 
   const [checkPass, setCheckPass] = useState(true);
   const toogleCheckPass = () => {
@@ -69,6 +73,7 @@ const Login = () => {
 
       if (result.length!= 0) {
         setisLogin(true);
+        setuser(result[0])
         console.log(result);
       } else {
         Alert.alert('Thông báo', 'Đăng nhập không thành công');
