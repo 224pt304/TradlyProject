@@ -1,7 +1,9 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native'
 import React, { useRef, useState } from 'react'
-
+import { useNavigation } from '@react-navigation/native';
 const Otp_verfitation = ({ onSubmit }) => {
+    const navigation = useNavigation()
+
     const [first1, setfirst1] = useState()
     const [first2, setfirst2] = useState()
     const [first3, setfirst3] = useState()
@@ -20,11 +22,14 @@ const Otp_verfitation = ({ onSubmit }) => {
     return (
 
         <View style={myStyle.dau}>
-            <Image
-                resizeMode='contain'
-                source={require('../../../assets/images/Back23.png')}
-                style={myStyle.hinh}
-            />
+            <TouchableOpacity onPress={() => navigation.navigate('Send_Otp')}>
+                <Image
+                    resizeMode='contain'
+                    source={require('../../../assets/images/Back23.png')}
+                    style={myStyle.hinh}
+                />
+            </TouchableOpacity>
+
             <Text style={myStyle.txtWelcome} >Phone Verification</Text>
             <Text style={myStyle.CLogin}>Enter your OTP code here</Text>
             <View style={myStyle.ViewOTP}>
@@ -82,7 +87,7 @@ const Otp_verfitation = ({ onSubmit }) => {
 export default Otp_verfitation
 
 const myStyle = StyleSheet.create({
-    textIP:{
+    textIP: {
         alignSelf: 'center',
         marginTop: 50,
         letterSpacing: 20,
@@ -92,7 +97,7 @@ const myStyle = StyleSheet.create({
         height: 50,
         borderBottomWidth: 1,
         borderColor: 'white',
-        color: 'white' 
+        color: 'white'
     },
     ViewOTP: {
         flexDirection: 'row',
@@ -140,8 +145,8 @@ const myStyle = StyleSheet.create({
 
     dau: {
         padding: 20,
-        width:'100%',
-        height:'100%',
+        width: '100%',
+        height: '100%',
         backgroundColor: '#33907C'
     },
 })

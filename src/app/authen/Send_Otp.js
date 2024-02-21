@@ -1,20 +1,26 @@
-import { StyleSheet, Text, View, Image, TextInput,TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react'
-
+import { useNavigation } from '@react-navigation/native';
 const Send_Otp = () => {
-    
+    const navigation = useNavigation()
     return (
         <View style={myStyle.dau}>
-            <Image
-                resizeMode='contain'
-                source={require('../../../assets/images/Back23.png')}
-                style={myStyle.hinh}
-            />
-            <Text style={myStyle.txtWelcome} >Verify your phone number</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                <Image
+                    resizeMode='contain'
+                    source={require('../../../assets/images/Back23.png')}
+                    style={myStyle.hinh}
+                />
+            </TouchableOpacity>
+
+            <Text style={myStyle.txtWelcome} >Verify your email</Text>
             <Text style={myStyle.CLogin}>We have sent you an SMS with a code to
                 enter number</Text>
-            <TextInput style={myStyle.TextInput1} placeholder='Please enter phone number for verification' placeholderTextColor='#e0e0eb'></TextInput>
-            <TouchableOpacity style={myStyle.ButtonL}><Text style={{ color: '#13B58C', fontSize: 24, fontWeight: 'bold' }}>Next</Text></TouchableOpacity>
+
+            <TextInput style={myStyle.TextInput1} placeholder='Please enter email for verification' placeholderTextColor='#e0e0eb'></TextInput>
+
+            <TouchableOpacity style={myStyle.ButtonL}
+                onPress={() => navigation.navigate('Otp_verfitation')}><Text style={{ color: '#13B58C', fontSize: 24, fontWeight: 'bold' }}>Next</Text></TouchableOpacity>
         </View>
     )
 }
@@ -40,7 +46,7 @@ const myStyle = StyleSheet.create({
     },
     CLogin: {
         alignSelf: 'center',
-        textAlign:'center',
+        textAlign: 'center',
         fontSize: 19,
         marginTop: 55,
         color: '#d1d1e0'
