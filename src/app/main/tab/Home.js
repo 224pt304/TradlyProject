@@ -5,6 +5,7 @@ import Swiper from 'react-native-swiper';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AxiosInstance from '../../../helper/AxiosInstance';
 import { AppContext } from '../../../AppContext';
+import SlideShow from '../../authen/SlideShow';
 const Home = () => {
   const [image, setimage] = useState(JSON.parse(imagejs));
   const [catalog, setcatalog] = useState(JSON.parse(catalogjs));
@@ -81,22 +82,7 @@ const Home = () => {
       <ScrollView
         showsVerticalScrollIndicator={false}>
         <View style={styles.viewSwiper}>
-          <Swiper
-            showsPagination={true}
-            autoplay
-            autoplayTimeout={3}
-            style={{ width: '100%', height: 165 }}>
-            {
-              image.map((imag, index) => (
-                <View key={index}>
-                  <Image
-                    style={styles.image}
-                    resizeMode='contain'
-                    source={{ uri: imag.img }} />
-                </View>
-              ))
-            }
-          </Swiper>
+          <SlideShow data={image}/>
         </View>
 
         <View>
@@ -218,7 +204,7 @@ const styles = StyleSheet.create({
 export default Home
 
 
-var imagejs = '[{ "id": 1, "img": "http://dummyimage.com/219x100.png/ff4444/ffffff" }, { "id": 2, "img": "http://dummyimage.com/238x100.png/5fa2dd/ffffff" }, { "id": 3, "img": "http://dummyimage.com/217x100.png/5fa2dd/ffffff" }, { "id": 4, "img": "http://dummyimage.com/167x100.png/ff4444/ffffff" }, { "id": 5, "img": "http://dummyimage.com/245x100.png/cc0000/ffffff" }, { "id": 6, "img": "http://dummyimage.com/177x100.png/cc0000/ffffff" }, { "id": 7, "img": "http://dummyimage.com/134x100.png/5fa2dd/ffffff" }, { "id": 8, "img": "http://dummyimage.com/235x100.png/ff4444/ffffff" }, { "id": 9, "img": "http://dummyimage.com/144x100.png/dddddd/000000" }, { "id": 10, "img": "http://dummyimage.com/250x100.png/5fa2dd/ffffff" }]';
+var imagejs = '["https://i.imgur.com/czV40SL.jpg","https://i.imgur.com/eCCSXtL.jpg","https://i.imgur.com/gQYVtRz.jpg","https://i.imgur.com/1tQuXn0.jpg"]';
 
 
 var catalogjs = '[{ "id": 1, "name": "Dulcea", "img": "http://dummyimage.com/249x100.png/dddddd/000000" }, { "id": 2, "name": "Ransell", "img": "http://dummyimage.com/216x100.png/dddddd/000000" }, { "id": 3, "name": "April", "img": "http://dummyimage.com/234x100.png/dddddd/000000" }, { "id": 4, "name": "Bear", "img": "http://dummyimage.com/213x100.png/cc0000/ffffff" }, { "id": 5, "name": "Harwilll", "img": "http://dummyimage.com/248x100.png/5fa2dd/ffffff" }, { "id": 6, "name": "Ali", "img": "http://dummyimage.com/147x100.png/dddddd/000000" }, { "id": 7, "name": "Fania", "img": "http://dummyimage.com/161x100.png/cc0000/ffffff" }, { "id": 8, "name": "Velma", "img": "http://dummyimage.com/152x100.png/dddddd/000000" }, { "id": 9, "name": "Reilly", "img": "http://dummyimage.com/195x100.png/5fa2dd/ffffff" }, { "id": 10, "name": "Terry", "img": "http://dummyimage.com/227x100.png/5fa2dd/ffffff" }]';
