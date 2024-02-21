@@ -92,8 +92,8 @@ const TitleBar = (props) => {
     }
 
     return (
-        <View style={[styles.container, { marginBottom: (title === 'Home' || title === 'Browser') ? 100 : 0 }]}>
-            <View style={styles.Header}>
+        <View style={[styles.container, { marginBottom: (title === 'Home' || title === 'Browser') ? 55 : 0 }]}>
+            <View style={[styles.Header,{padding: 20}]}>
                 <Text style={styles.Title}>{title}</Text>
                 <TouchableOpacity onPress={() => navigation.navigate('Cart', { listaddress: "" })}>
                     <Image style={{ width: 30, height: 30 }} source={{ uri: "https://i.imgur.com/vaNk6IZ.png" }} />
@@ -108,15 +108,6 @@ const TitleBar = (props) => {
                         style={styles.textInput}
                         placeholder='Nhập tìm kiếm'
                         onSubmitEditing={() => submit()} />
-
-                    {title === 'Browser' &&
-                        <View style={styles.viewSort}>
-                            <TouchableOpacity style={styles.btnSort}>
-                                <Image style={styles.iconSort} source={require('../../../../assets/images/sort.png')} />
-                                <Text style={styles.textSort}>Sort by</Text>
-                            </TouchableOpacity>
-                        </View>
-                    }
                 </View>}
         </View>
     )
@@ -153,7 +144,8 @@ const styles = StyleSheet.create({
     },
     centerView: {
         justifyContent: 'center',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        paddingBottom: 20
     },
     textInput: {
         height: 50,
@@ -169,11 +161,10 @@ const styles = StyleSheet.create({
     },
     Header: {
         width: '100%',
-        height: '100%',
         backgroundColor: '#33907C',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 20,
+        paddingHorizontal: 20,
         alignItems: 'center'
     },
     Title: {
