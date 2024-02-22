@@ -59,7 +59,7 @@ const Home = () => {
             source={{ uri: item.image[0].img }} />
             
           <View style={styles.containerDetail}>
-            <Text style={styles.name}>{item.nameProduct}</Text>
+            <Text style={styles.name} numberOfLines={1}>{item.nameProduct}</Text>
 
             <View style={styles.containerprice}>
               <Text style={styles.textPrice}>${item.sale != 0 ? (item.price - (item.price * item.sale / 100)).toFixed(2) : item.price} </Text>
