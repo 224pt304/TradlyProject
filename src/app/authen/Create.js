@@ -83,6 +83,7 @@ const Create = () => {
                 .post('/users', body);
             console.log(result);
             if (result.length != 0) {
+                setuser(result)
                 console.log(result);
                 setisLogin(true);
             }

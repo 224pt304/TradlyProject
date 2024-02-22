@@ -68,6 +68,7 @@ const Login = () => {
 
 
       if (result.length != 0) {
+        setuser(result[0]);
         setisLogin(true);
         console.log(result);
       } else {
@@ -81,6 +82,7 @@ const Login = () => {
       setisLogin(false);
     }
   }
+
 
 
 
